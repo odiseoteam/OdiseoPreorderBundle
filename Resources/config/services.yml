@@ -1,0 +1,22 @@
+services:
+    odiseo_preorder.service.preorder:
+        class: Odiseo\Bundle\PreorderBundle\Services\PreOrderService
+        arguments:  [ "@doctrine.orm.entity_manager","@odiseo_preorder.repository.preorder"]
+
+    odiseo_preorder.service.preorder_state:
+        class: Odiseo\Bundle\PreorderBundle\Services\PreOrderStateService
+        arguments:  [ "@doctrine.orm.entity_manager","@odiseo_preorder.repository.preorder_state"]
+        
+    odiseo_preorder.service.preorder_manager:
+        class: Odiseo\Bundle\PreorderBundle\Services\PreOrderManagerService
+        arguments:  [ "@odiseo_preorder.service.preorder" , "@odiseo_preorder.service.preorder_state"]
+        
+    odiseo_preorder.service.preorder_history:
+        class: Odiseo\Bundle\PreorderBundle\Services\PreOrderHistoryService
+        arguments:  [ "@doctrine.orm.entity_manager","@odiseo_preorder.repository.preorder_history"]
+
+    #suscribers
+    odiseo_preorder.subscriber.preorder_history:
+        class: Odiseo\Bundle\PreorderBundle\EventListener\PreOrderUpdateSubscriber
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }

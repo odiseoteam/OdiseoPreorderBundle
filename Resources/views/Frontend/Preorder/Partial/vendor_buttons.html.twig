@@ -1,0 +1,10 @@
+{% if form is defined %}
+ {{ form_start(form , { 'action':path('odiseo_show_send_contract_pop_up' ,{'id': id, 'buyerId' : buyerId }) , 'attr': {'style' : 'display:inline;'} }) }}
+		{% if form.decline is defined %}
+		{{ form_widget(form.decline, {'attr': {'class':'button_drop', 'style' : 'display:inline;'}}) }}
+		{% endif %}
+		{% if form.contract is defined %}
+		{{ form_widget(form.contract, {'attr': {'class':'button_drop', 'style' : 'display:inline;'}}) }}
+		{% endif %}
+ {{ form_end(form ,{'render_rest': false}) }}
+{% endif %}

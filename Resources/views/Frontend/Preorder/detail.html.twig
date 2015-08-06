@@ -1,0 +1,185 @@
+{% extends 'OdiseoProductBundle:Frontend:layout.html.twig' %}
+
+{% block javascripts %}
+{{ parent() }}
+<script src="{{ asset('bundles/odiseoadscandy/js/icheck.js') }}"></script>
+<script src="{{ asset('bundles/odiseoadscandy/js/jquery.sliderPro.min.js') }}"></script>
+<script src="{{ asset('bundles/odiseoadscandy/js/bootstrap-datepicker.js') }}"></script>
+<script src="{{ asset('bundles/odiseoadscandy/js/infobox.js') }}"></script>
+<script src="{{ asset('bundles/odiseoadscandy/js/owl.carousel.min.js') }}"></script>
+<script type="text/javascript">
+$(function()
+{
+	$('input').iCheck({
+		checkboxClass: 'icheckbox_square-grey',
+		radioClass: 'iradio_square-grey'
+	});
+	
+	$('#Img_carousel').sliderPro({
+		width: 960,
+		height: 500,
+		fade: true,
+		arrows: true,
+		buttons: false,
+		fullScreen: false,
+		smallSize: 500,
+		startSlide: 0,
+		mediumSize: 1000,
+		largeSize: 3000,
+		thumbnailArrows: true,
+		autoplay: false
+	});
+
+	$('input.date-pick').datepicker('setDate', 'today');
+
+	$(".carousel").owlCarousel({
+		items : 4,
+		itemsDesktop : [1199,3],
+		itemsDesktopSmall : [979,3]
+	});
+});
+</script>	
+{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<link href="{{ asset('bundles/odiseoadscandy/css/slider-pro.min.css') }}" rel="stylesheet">
+<link href="{{ asset('bundles/odiseoadscandy/css/date_time_picker.css') }}" rel="stylesheet">
+<link href="{{ asset('bundles/odiseoadscandy/css/owl.carousel.css') }}" rel="stylesheet">
+<link href="{{ asset('bundles/odiseoadscandy/css/owl.theme.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}	
+{% if product.mainAsset %}
+<section class="parallax-window" data-parallax="scroll" data-image-src="{{ asset('media/images/product/'~product.mainAsset.path)|imagine_filter('product_show_header') }}" data-natural-width="1400" data-natural-height="470">
+	<div class="parallax-content-2">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8 col-sm-8">
+					<span class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star voted"></i><i class=" icon-star-empty"></i></span>
+					<h1>{{ product.title }}</h1>
+					<span>{{ product.address }}</span>
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <div id="price_single_main" class="hotel">
+                        {#from/per night #}<span><sup>$</sup>{{ product.price }}</span>
+                    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section><!-- End section -->
+{% else %}
+<section id="general"></section>
+{% endif %}
+    
+<div class="collapse" id="collapseMap">
+	<div id="map" class="map"></div>
+</div><!-- End Map -->
+    
+<div class="container margin_60">
+	<div class="row">
+		<div class="col-md-8 col-md-offset-1" id="single_tour_desc">
+			<div id="single_tour_feat">
+				<ul>
+                    <li><i class="icon_set_2_icon-116"></i>Plasma TV</li>
+                    <li><i class="icon_set_1_icon-86"></i>Free Wifi</li>
+                    <li><i class="icon_set_2_icon-110"></i>Poll</li>
+                    <li><i class="icon_set_1_icon-59"></i>Breakfast</li>
+                    <li><i class="icon_set_1_icon-22"></i>Pet allowed</li>
+                    <li><i class="icon_set_1_icon-13"></i>Accessibiliy</li>
+                    <li><i class="icon_set_1_icon-27"></i>Parking</li>
+                </ul>
+            </div>
+            <p class="visible-sm visible-xs"><a class="btn_map" data-toggle="collapse" href="#collapseMap" aria-expanded="false" aria-controls="collapseMap">View on map</a></p><!-- Map button for tablets/mobiles -->
+            {% if product.assets|length > 0 %}
+            <div id="Img_carousel" class="slider-pro">
+                <div class="sp-slides">
+                	{% for asset in product.assets %}
+                    <div class="sp-slide">
+                        <img alt="" class="sp-image" src="{{ asset('media/images/product/'~asset.path)|imagine_filter('product_gallery_medium') }}" 
+                        data-src="{{ asset('media/images/product/'~asset.path)|imagine_filter('product_gallery_medium') }}" 
+                        data-small="{{ asset('media/images/product/'~asset.path)|imagine_filter('product_gallery_small') }}" 
+                        data-medium="{{ asset('media/images/product/'~asset.path)|imagine_filter('product_gallery_medium') }}" 
+                        data-large="{{ asset('media/images/product/'~asset.path)|imagine_filter('product_gallery_large') }}" 
+                        data-retina="{{ asset('media/images/product/'~asset.path)|imagine_filter('product_gallery_large') }}">
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="sp-thumbnails">
+                	{% for asset in product.assets %}
+                    <img alt="" class="sp-thumbnail" src="{{ asset('media/images/product/'~asset.path)|imagine_filter('product_gallery_medium') }}">
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            
+            <hr>
+            
+            <div class="row">
+                
+                <div class="col-md-3">
+ 				 	<h3>History</h3>
+				</div>
+				
+				<div class="col-md-9">
+				  		{{ include('OdiseoAdsCandyBundle:Frontend/Preorder/Partial:history.html.twig' , { 'history' : preorder.history }) }}					
+						
+				  		{% if form is defined %}
+								{{ form_start(form) }}
+						{{ form_errors(form) }}
+					 	{% for flashMessage in app.session.flashbag.get('notice') %}
+					 	<p class="sended"><i class="fa fa-check"></i> {{ flashMessage }}</p>
+						{% endfor %}
+						{% for flashMessage in app.session.flashbag.get('error') %}
+					 	<p class="sended"><i class="fa fa-times"></i> {{ flashMessage }}</p>
+						{% endfor %}
+						<div class="row margin_30">
+								<div class="col-md-12">
+										<div class="form-group">
+											{{ form_label(form.description) }}
+											{{ form_widget(form.description, {'attr': {'class': 'form-control', 'data-rule-required':'true'} }) }}
+										</div>
+								</div>
+								{{ form_row(form._token) }}			  
+								<div class="col-md-12">
+									{% if form.enviar is defined  %}
+										{{ form_widget(form.enviar, {'attr': {'class': 'btn_full'}}) }}
+									{% endif %}
+									{% if form.guardar is defined  %}
+										{{ form_widget(form.guardar, {'attr': {'class': 'btn_full'}}) }}
+									{% endif %}
+									{% if form.pagar is defined  %}
+										{{ form_widget(form.pagar, {'attr': {'class': 'btn_full'}}) }}
+									{% endif %}
+									{% if form.editar is defined  %}
+										{{ form_widget(form.editar, {'attr': {'class': 'btn_full'}}) }}
+									{% endif %}
+									{% if form.aceptar is defined  %}
+										{{ form_widget(form.aceptar, {'attr': {'class': 'btn_full'}}) }}
+									{% endif %}
+									{% if form.verificar is defined  %}
+										{{ form_widget(form.verificar, {'attr': {'class': 'btn_full'}}) }}
+									{% endif %}
+								</div>
+						</div>
+					{{ form_end(form ,{'render_rest': false}) }}
+					{% endif %}
+				</div>
+            
+            </div><!-- End row  -->
+            
+          	<hr>
+          	
+          			
+           
+        </div><!--End  single_tour_desc-->
+        
+
+	
+	</div>
+</div>
+
+{% endblock %}
+	
+		

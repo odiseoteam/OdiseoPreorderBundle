@@ -1,0 +1,46 @@
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+
+<div id="pick_a_day" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<form action="{{ path('odiseo_request_for_media', { 'id': productId }) }}" method="POST">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title text-center">Pick a Day</h4>
+				</div>
+				<div class="modal-body">
+					{{form_row(form._token) }}
+					<div class="row">
+						<div class="col-md-6"> 
+							<div class="form-group">
+								{{ form_label(form.dateFrom) }}							
+								{{ form_widget(form.dateFrom) }}	
+						    </div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								{{ form_label(form.dateTo) }}
+								{{ form_widget(form.dateTo) }}
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group">
+								{{ form_label(form.usedFor) }}
+								{{ form_widget(form.usedFor) }}
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<button class="btn_1 white" data-dismiss="modal">Close</button>
+							<button type="submit" class="btn_1">{{ 'odiseo.adscandy.contract.submit'|trans }}</button>
+						</div>
+					</div>
+				</div>
+			</form>		 
+		</div>
+	</div>		
+</div>

@@ -1,0 +1,86 @@
+Odiseo\Bundle\PreorderBundle\Model\PreOrder:
+    type: mappedSuperclass
+    table: odiseo_preorder
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        dateCreated:
+            column: date_created
+            type: datetime
+            gedmo:
+              timestampable:
+                on: update
+        dateTo:
+            column: dateTo
+            type: datetime
+        dateFrom:
+            column: dateFrom
+            type: datetime
+        artDate:
+            column: artDate
+            type: datetime
+            nullable: true
+        details:
+            column: details
+            type: text
+            nullable: true
+        restrictions:
+            column: restrictions
+            type: text
+            nullable: true
+        usedFor:
+            column: used_for
+            type: string        
+        canVendorControl:
+            column: vendor_control
+            type: boolean
+        canBuyerControl:
+            column: buyer_control
+            type: boolean
+        isEditable:
+            column: can_edit
+            type: boolean
+        isEditable:
+            column: can_edit
+            type: boolean
+        artIncluded:
+            column: art_included
+            type: boolean
+            nullable: true
+        productionIncluded:
+            column: production_included
+            type: boolean
+            nullable: true
+        termsAndConditions:
+            column: terms_conditions
+            type: boolean
+            nullable: true
+    manyToOne:
+        buyer:
+            targetEntity: \Odiseo\Bundle\UserBundle\Model\UserInterface
+            inversedBy: orders
+            joinColumn:
+                name: buyer_id
+                referencedColumnName: id
+                onUpdate: 'CASCADE'
+        state:
+            targetEntity: \Odiseo\Bundle\PreorderBundle\Model\PreOrderStateInterface
+            joinColumn:
+                name: state_id
+                referencedColumnName: id
+                onUpdate: 'CASCADE'
+        product:
+            targetEntity: \Odiseo\Bundle\ProductBundle\Model\ProductInterface
+            joinColumn:
+                name: product_id
+                referencedColumnName: id
+                onUpdate: 'CASCADE'
+    oneToMany:
+        history:
+            targetEntity: \Odiseo\Bundle\PreorderBundle\Model\PreOrderHistoryInterface
+            mappedBy: preOrder
+    lifecycleCallbacks: {  }

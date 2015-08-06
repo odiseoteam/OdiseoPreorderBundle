@@ -1,0 +1,13 @@
+{{ form_errors(form) }}
+
+{% for	flashMessage in app.session.flashbag.get('notice') %}
+<p class="sended">
+	<i class="fa fa-check"></i> {{ flashMessage }}
+</p>
+{% endfor %}
+
+{% for flashMessage in app.session.flashbag.get('error') %}
+<p class="sended">
+	<i class="fa fa-times"></i> {{ flashMessage }}
+</p>
+{% endfor %}

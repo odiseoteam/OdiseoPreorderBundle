@@ -1,0 +1,15 @@
+{% if form is defined %}
+	{% if form.ready is defined %}
+		{{ form_start(form , { 'action':path('odiseo_show_quote_of_media_pop_up' ,{'id': id }) , 'attr': {'style' : 'display:inline;'} }) }}
+		{{ form_widget(form.ready, {'attr': {'class':'button_drop', 'style' : 'display:inline;'}}) }}
+		{{ form_end(form ,{'render_rest': false}) }}
+ 	{% endif %}
+ 	
+ 	{% if form.pay is defined %}
+		{% set cartForm = sylius_cart_form({'product': product}) %} 
+		<form action="{{ path('sylius_cart_item_add', {'id': product.id, '_redirect_to': path('sylius_checkout_start')}) }}" method="post" style="display:inline;">
+			<div class="hide">{{ form_row(cartForm.quantity, {'attr': {'class': 'center-text'}, 'empty_value': '1'}) }} {{ form_widget(cartForm._token) }}</div>
+			<button type="submit" class="button_drop" style="display:inline;">Pagar</button>
+		</form>
+ 	{% endif %}
+{% endif %}

@@ -1,0 +1,63 @@
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+
+<div class="container">
+{{ form_start(form , {'action':path('odiseo_send_media_contract' ,{'productId': product.id , 'buyerId' : buyerId }), 'method': 'POST'}) }}
+
+	{{include('OdiseoAdsCandyBundle:Frontend/Preorder/Partial:errors.html.twig', {'form' : form }) }}
+	<div class="row">
+		<div class="form-group col-md-2">
+			{{ form_label( form.dateFrom ) }}
+			{{ form_widget(form.dateFrom ) }}
+		</div>
+		<div class="form-group col-md-2">
+			{{ form_label( form.dateTo ) }}
+			{{ form_widget(form.dateTo ) }}
+		</div>
+		<div class="form-group col-md-1">
+			<label class="control-label"> Price </label><br>
+			<label>{{ product.price }} </label>
+		</div>
+	</div>
+	<div class="row ">
+		<div class="col-md-4 form-group">
+				{{ form_label( form.restrictions ) }}
+				{{ form_widget(form.restrictions , { 'attr' : { 'rows' : '7' , 'cols' : '10'}   } ) }}
+		</div>
+		<div class="col-md-3 form-group">
+				<label class="control-label"> This media will be used for </label>
+		</div>
+				<p class="form-control-static"> "preOrder.usedFor" </p>
+	</div>
+	<div class="row ">
+		<div class="col-md-7 form-group">
+		
+				{{ form_label( form.details ) }}
+				{{ form_widget(form.details , { 'attr' : { 'rows' : '7' , 'cols' : '10'}   } ) }}
+		</div>
+	</div>
+	<div class="row ">
+		<div class="col-md-2 form-group">
+				{{ form_widget(form.artIncluded ) }}
+		</div>
+		<div class="col-md-2 form-group">
+				{{ form_widget(form.productionIncluded ) }}
+		</div>
+	</div>
+	<div class="row">
+		<div class="form-group col-md-2">
+			{{ form_label( form.artDate ) }}
+			{{ form_widget(form.artDate ) }}
+		</div>
+		<div class="form-group col-md-2">
+			{{ form_label(form.termsAndConditions ) }}
+			{{ form_widget(form.termsAndConditions ) }}
+		</div>
+	</div>
+	<div class="row">
+		<div class="form-group col-md-5">
+			<button id="submit" type="submit" class="button_drop">Submit</button>
+		</div>
+		{{form_row(form._token) }}
+	</div>
+{{ form_end(form ,{'render_rest':false}) }}
+</div>

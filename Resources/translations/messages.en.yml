@@ -1,0 +1,27 @@
+odiseo:
+    preorder:
+        contract:
+            accept: 'Accept'
+            accept_terms: 'I accept terms and conditions'
+            art_date: 'Artwork date'
+            art_included: 'Artwork included'
+            date_from: 'Date from'
+            date_to: 'Date to'
+            decline: 'Decline'
+            description: 'Description'
+            details: 'Details'
+            edit: 'Edit'
+            pay: 'Pay'
+            production_included: 'Production included'
+            ready_to: 'Ready to'
+
+            request:
+                sent: 'Sent'
+
+            restrictions: 'Restrictions'
+            save: 'Save'
+            send: 'Send'
+            sent: 'Sent'
+            submit: 'Submit'
+            used_for: 'Used for'
+            verify: 'Verify'

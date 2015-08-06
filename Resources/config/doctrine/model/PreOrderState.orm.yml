@@ -1,0 +1,30 @@
+Odiseo\Bundle\PreorderBundle\Model\PreOrderState:
+    type: mappedSuperclass
+    table: odiseo_preorder_state
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+           column: name
+           type: string
+           length: 255
+    oneToOne:
+         previousState:
+            targetEntity: Odiseo\Bundle\PreorderBundle\Model\PreOrderStateInterface
+            cascade: ['all'] 
+            joinColumn:
+                name: previous_state
+                referencedColumnName: id
+                onDelete: "CASCADE"
+         nextState:
+            targetEntity: Odiseo\Bundle\PreorderBundle\Model\PreOrderStateInterface
+            cascade: ['all'] 
+            joinColumn:
+                name: next_state
+                referencedColumnName: id
+                onDelete: "CASCADE"
+    lifecycleCallbacks: {  }

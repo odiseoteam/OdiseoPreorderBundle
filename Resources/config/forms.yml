@@ -1,0 +1,42 @@
+services:    
+    odiseo_preorder.show_buyer_buttons_form.type:
+        class: Odiseo\Bundle\PreorderBundle\Form\Type\ShowBuyerButtonsFormType
+        arguments:  [ "@service_container"]
+          
+    odiseo_preorder.show_buyer_buttons_form.factory:
+        class: Odiseo\Bundle\PreorderBundle\Form\Factory\ShowBuyerButtonsFormFactory
+        arguments:  [ "@form.factory" , "@odiseo_preorder.show_buyer_buttons_form.type" , 'odiseo_show_buyer_buttons_form_name' , 'Odiseo\Bundle\PreorderBundle\Model\PreOrder']
+    
+    odiseo_preorder.show_vendor_buttons_form.type:
+        class: Odiseo\Bundle\PreorderBundle\Form\Type\ShowVendorButtonsFormType
+        arguments:  [ "@service_container"]
+          
+    odiseo_preorder.show_vendor_buttons_form.factory:
+        class: Odiseo\Bundle\PreorderBundle\FormFactory\ShowVendorButtonsFormFactory
+        arguments:  [ "@form.factory" , "@odiseo_preorder.show_vendor_buttons_form.type" , 'odiseo_show_vendor_buttons_name' , 'Odiseo\Bundle\PreorderBundle\Model\PreOrder']
+
+    # Contract
+    odiseo_preorder.contract.handler:
+        class: Odiseo\Bundle\PreorderBundle\Form\Handler\ContractFormHandler
+        arguments: [ "@service_container"]
+    
+    odiseo_preorder.contract_form.type:
+        class: Odiseo\Bundle\PreorderBundle\Form\Type\ContractFormType
+        arguments: [ "@router"]
+          
+    odiseo_preorder.contract_form.factory:
+        class: Odiseo\Bundle\PreorderBundle\Form\Factory\ContractFormFactory
+        arguments:  [ "@form.factory" , "@odiseo_preorder.contract_form.type" , 'odiseo_preorder_contract' , 'Odiseo\Bundle\PreorderBundle\Model\PreOrder']
+                
+    # Request
+    odiseo_preorder.request.form.handler:
+        class: Odiseo\Bundle\PreorderBundle\Form\Handler\RequestFormHandler
+        arguments:  [ "@service_container"]
+    
+    odiseo_preorder.request.form.type:
+        class: Odiseo\Bundle\PreorderBundle\Form\Type\RequestFormType
+        arguments:  [ "@router"]
+          
+    odiseo_preorder.request.form.factory:
+        class: Odiseo\Bundle\PreorderBundle\FormFactory\RequestFormFactory
+        arguments:  [ "@form.factory", "@odiseo_preorder.request.form.type", 'odiseo_preorder_request', 'Odiseo\Bundle\PreorderBundle\Model\PreOrder']

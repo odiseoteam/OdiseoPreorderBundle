@@ -1,0 +1,64 @@
+Odiseo\Bundle\PreorderBundle\Model\PreOrderHistory:
+    type: mappedSuperclass
+    table: odiseo_preorder_history
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        dateCreated:
+            column: date_created
+            type: datetime
+            gedmo:
+              timestampable:
+                on: update
+        dateTo:
+            column: dateTo
+            type: datetime
+        dateFrom:
+            column: dateFrom
+            type: datetime
+        usedFor:
+            column: used_for
+            type: string
+        restrictions:
+            column: restrictions
+            type: text
+        state:
+            column: state
+            type: text
+        details:
+            column: details
+            type: text
+        canVendorControl:
+            column: vendor_control
+            type: boolean
+        canBuyerControl:
+            column: buyer_control
+            type: boolean
+        isEditable:
+            column: can_edit
+            type: boolean
+        artIncluded:
+            column: art_included
+            type: boolean
+            nullable: true
+        productionIncluded:
+            column: production_included
+            type: boolean
+            nullable: true
+        termsAndConditions:
+            column: terms_conditions
+            type: boolean
+            nullable: true
+    manyToOne:
+        preOrder:
+            targetEntity: \Odiseo\Bundle\PreorderBundle\Model\PreOrderInterface
+            inversedBy: history
+            joinColumn:
+                name: preorder_id
+                referencedColumnName: id
+                onUpdate: 'CASCADE'              
+    lifecycleCallbacks: {  }
