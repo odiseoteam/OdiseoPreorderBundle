@@ -20,7 +20,7 @@ class RequestMediaFormHandler
     	$this->container = $container;
     	$this->preOrderService = $container->get("preorder.service");
     	$this->preOrderManager = $container->get('preorder.manager.service');
-    	$this->productService = $container->get('odiseo.product.service');
+    	$this->productService = $container->get('odiseo_product.service.product');
     	$this->buyer = $container->get('security.context')->getToken()->getUser();
     }
     

@@ -11,7 +11,7 @@ class PreOrderController extends Controller
 {    	
 	public function showPreorderButtonAction($productId, $buyerId)
 	{
-		$productService = $this->get('odiseo.product.service');
+		$productService = $this->get('odiseo_product.service.product');
 		$preOrderService = $this->get('preorder.service');
 		$preOrder = $preOrderService->findPreorderByBuyerAndProduct($buyerId, $productId);
 		$product = $productService->findOneById($productId);
@@ -74,7 +74,7 @@ class PreOrderController extends Controller
 		
 		$preOrder = $this->get('preorder.service')->findPreorderByBuyerAndProduct($buyerId , $productId );
 		
-		$productService = $this->get('odiseo.product.service');
+		$productService = $this->get('odiseo_product.service.product');
 		$product = $productService->findOneById($productId);
 
 		return new JsonResponse(array(

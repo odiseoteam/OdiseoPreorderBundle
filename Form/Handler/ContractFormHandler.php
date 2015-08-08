@@ -23,7 +23,7 @@ class ContractFormHandler
     	$this->preOrderService = $container->get("preorder.service");
     	$this->request = $container->get('request');
     	$this->preOrderManager = $container->get('preorder.manager.service');
-    	$this->productService = $container->get('odiseo.product.service');
+    	$this->productService = $container->get('odiseo_product.service.product');
     	$this->buyer = $container->get('security.context')->getToken()->getUser();
     }
     
