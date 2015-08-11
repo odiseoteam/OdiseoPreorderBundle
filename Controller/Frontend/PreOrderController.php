@@ -12,7 +12,7 @@ class PreOrderController extends Controller
 	public function showPreorderButtonAction($productId, $buyerId)
 	{
 		$productService = $this->get('odiseo_product.service.product');
-		$preOrderService = $this->get('preorder.service');
+		$preOrderService = $this->get('odiseo_preorder.service.preorder');
 		$preOrder = $preOrderService->findPreorderByBuyerAndProduct($buyerId, $productId);
 		$product = $productService->findOneById($productId);
 		
@@ -25,22 +25,31 @@ class PreOrderController extends Controller
 		$factory = null;
 		if($userId == $product->getVendor()->getId())
 		{
-			$factory = $this->container->get('odiseo_preorder.show_vendor_buttons_form.factory');
+			$factory = $this->container->get('odiseo_preorder.form.factory.show_vendor_buttons');
 			$form = $factory->create();
-			return $this->render('OdiseoPreorderBundle:Frontend/Preorder/Partial:vendor_buttons.html.twig', array( 'form' => $form->createView(), 'id' => $product->getId(), 'buyerId' => $buyerId));
+			
+			return $this->render('OdiseoPreorderBundle:Frontend/Preorder/Partial:vendor_buttons.html.twig', array(
+				'form' => $form->createView(), 
+				'id' => $product->getId(), 
+				'buyerId' => $buyerId					
+			));
 		}
 		else
 		{
-			$factory = $this->container->get('odiseo_preorder.show_buyer_buttons_form.factory');
+			$factory = $this->container->get('odiseo_preorder.form.factory.show_buyer_buttons');
 			$form = $factory->create();
-			return $this->render('OdiseoPreorderBundle:Frontend/Preorder/Partial:buyer_buttons.html.twig', array( 'form' => $form->createView(), 'id' => $product->getId(), 'product' => $product));
+			return $this->render('OdiseoPreorderBundle:Frontend/Preorder/Partial:buyer_buttons.html.twig', array(
+				'form' => $form->createView(), 
+				'id' => $product->getId(), 
+				'product' => $product					
+			));
 		}
 	}
 
     /** Show and send request */
     public function showSendRequestAction($productId)
     {
-        $factory = $this->container->get('odiseo_preorder.request_media.form.factory');
+        $factory = $this->container->get('odiseo_preorder.form.factory.request');
         $form = $factory->create();
 
         return $this->render('OdiseoPreorderBundle:Frontend/Preorder/Partial:show_send_request.html.twig', array(
@@ -52,8 +61,8 @@ class PreOrderController extends Controller
     public function sendRequestAction(Request $request)
     {
         $id = $request->get('id');
-        $factory = $this->container->get('odiseo_preorder.request_media.form.factory');
-        $formHandler = $this->container->get('odiseo_preorder.request_media.form.handler');
+        $factory = $this->container->get('odiseo_preorder.form.factory.request');
+        $formHandler = $this->container->get('odiseo_preorder.form.handler.request_media');
         $form = $factory->create();
 
         if ($formHandler->process($form, $request, $id))
@@ -69,10 +78,10 @@ class PreOrderController extends Controller
 	{
 		$productId = $request->get('id');
 		$buyerId = $request->get('buyerId');
-		$factory = $this->container->get('odiseo_preorder.media_contract_form.factory');
+		$factory = $this->container->get('odiseo_preorder.form.factory.media_contract');
 		$form = $factory->create();
 		
-		$preOrder = $this->get('preorder.service')->findPreorderByBuyerAndProduct($buyerId , $productId );
+		$preOrder = $this->get('odiseo_preorder.service.preorder')->findPreorderByBuyerAndProduct($buyerId , $productId );
 		
 		$productService = $this->get('odiseo_product.service.product');
 		$product = $productService->findOneById($productId);
@@ -92,9 +101,9 @@ class PreOrderController extends Controller
 	{
 		$id = $request->get('productId');
 		$creatorId = $request->get('buyerId');
-		$factory = $this->container->get('odiseo_preorder.media_contract_form.factory');
+		$factory = $this->container->get('odiseo_preorder.form.factory.media_contract');
 		$form = $factory->create();		
-		$handler = $this->get('odiseo_preorder.media_contract.handler');
+		$handler = $this->get('odiseo_preorder.form.handler.media_contract');
 		
 		if($handler->process($form))
 		{
@@ -110,20 +119,23 @@ class PreOrderController extends Controller
 	public function detailAction(Request $request)
 	{
 		$id = $request->get('id');
-		$preOrderService = $this->get('preorder.service');
+		$preOrderService = $this->get('odiseo_preorder.service.preorder');
 		$preOrder = $preOrderService->findOneById($id);
 		$user = $this->get('security.context')->getToken()->getUser();
 	
-		$form = $this->createForm(new PreOrderFormType($preOrder , $user), $preOrder , array('action' => $this->generateUrl('odiseo_preorder_detail',  array('id' => $id))));
+		$form = $this->createForm(new PreOrderFormType($preOrder, $user), $preOrder, array(
+				'action' => $this->generateUrl('odiseo_preorder_detail',  array('id' => $id))				
+		));
+		
 		if($request->isMethod('POST'))
 		{
 			$form->handleRequest($request);
 			if ($form->isValid())
 			{
-				$managerService = $this->get('preorder.manager.service');
+				$managerService = $this->get('odiseo_preorder.service.preorder_manager');
 				$newDescription = $form->getData()->getDescription();
 				$preOrder->setDescription($newDescription);
-				$managerService->manage($preOrder , $this->getSelectedAction($form));
+				$managerService->manage($preOrder, $this->getSelectedAction($form));
 			}
 			else {}
 		}

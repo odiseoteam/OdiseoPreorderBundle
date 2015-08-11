@@ -48,6 +48,6 @@ class ShowVendorButtonsFormType extends AbstractType
 
     public function getName()
     {
-        return 'odiseo_preorder_show_vendor_button';
+        return 'odiseo_preorder_show_vendor_buttons';
     }
 }
