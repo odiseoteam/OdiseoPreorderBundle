@@ -4,7 +4,7 @@
 	<div class="modal-dialog">
 		<!-- Modal content-->
 		<div class="modal-content">
-			<form action="{{ path('odiseo_request_for_media', { 'id': productId }) }}" method="POST">
+			<form action="{{ path('odiseo_preorder_send_request', { 'id': productId }) }}" method="POST">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title text-center">Pick a Day</h4>
@@ -36,7 +36,7 @@
 					<div class="row">
 						<div class="col-md-12">
 							<button class="btn_1 white" data-dismiss="modal">Close</button>
-							<button type="submit" class="btn_1">{{ 'odiseo.adscandy.contract.submit'|trans }}</button>
+							<button type="submit" class="btn_1">{{ 'odiseo.preorder.contract.submit'|trans }}</button>
 						</div>
 					</div>
 				</div>

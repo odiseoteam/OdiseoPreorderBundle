@@ -20,9 +20,9 @@ class ContractFormHandler
     public function __construct(ContainerInterface $container)
     {
     	$this->container = $container;
-    	$this->preOrderService = $container->get("preorder.service");
+    	$this->preOrderService = $container->get("odiseo_preorder.service.preorder");
     	$this->request = $container->get('request');
-    	$this->preOrderManager = $container->get('preorder.manager.service');
+    	$this->preOrderManager = $container->get('odiseo_preorder.service.preorder_manager');
     	$this->productService = $container->get('odiseo_product.service.product');
     	$this->buyer = $container->get('security.context')->getToken()->getUser();
     }

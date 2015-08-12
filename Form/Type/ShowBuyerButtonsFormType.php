@@ -22,16 +22,13 @@ class ShowBuyerButtonsFormType extends AbstractType
     {
 		$this->request = $container->get('request');
 		$this->buyer = $container->get('security.context')->getToken()->getUser();
-		$this->preOrderService = $container->get('preorder.service');
+		$this->preOrderService = $container->get('odiseo_preorder.service.preorder');
 	}
 	
 	public function buildForm(FormBuilderInterface $builder, array $options)
     {
-    	$idProduct = $this->request->get('productId');
-    	$preOrder = $this->preOrderService->findOneByKeysValues(array(
-            'product' => $idProduct,
-            'buyer' => $this->buyer->getId()
-        ));
+        $productId = $this->request->get('productId');
+        $preOrder = $this->preOrderService->findPreorderByBuyerAndProduct($this->buyer->getId(), $productId);
 
     	if($preOrder)
     	{

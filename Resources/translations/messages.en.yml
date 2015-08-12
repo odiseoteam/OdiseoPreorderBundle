@@ -20,8 +20,8 @@ odiseo:
 
             restrictions: 'Restrictions'
             save: 'Save'
-            send: 'Send'
-            sent: 'Sent'
+            send: 'Send Contract'
+            sent: 'Contract Sent'
             submit: 'Submit'
             used_for: 'Used for'
             verify: 'Verify'

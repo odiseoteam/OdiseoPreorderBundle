@@ -50,6 +50,7 @@ class Configuration implements ConfigurationInterface
                             ->children()
                                 ->scalarNode('model')->defaultValue('Odiseo\Bundle\PreorderBundle\Model\PreOrder')->end()
                                 ->scalarNode('repository')->defaultValue('Odiseo\Bundle\PreorderBundle\Doctrine\ORM\PreOrderRepository')->end()
+                                ->scalarNode('controller')->defaultValue('Odiseo\Bundle\PreorderBundle\Controller\Frontend\PreOrderController')->end()
                             ->end()
                         ->end()
                         ->arrayNode('preorder_state')

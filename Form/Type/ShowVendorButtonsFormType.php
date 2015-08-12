@@ -15,16 +15,15 @@ class ShowVendorButtonsFormType extends AbstractType
 
 	public function __construct(ContainerInterface $container)
     {
-		
 		$this->request = $container->get('request');
-		$this->preOrderService = $container->get('preorder.service');
+		$this->preOrderService = $container->get('odiseo_preorder.service.preorder');
 	}
 	
 	public function buildForm(FormBuilderInterface $builder, array $options)
     {
     	$productId = $this->request->get('productId');
     	$buyerId  = $this->request->get('buyerId');
-    	$preOrder = $this->preOrderService->findOneByKeysValues(array('product' => $productId , 'buyer' => $buyerId ));
+    	$preOrder = $this->preOrderService->findPreorderByBuyerAndProduct($buyerId, $productId);
     	$builder->add('decline', 'button' , array('label' => 'odiseo.preorder.contract.decline'));
 
 		if($preOrder)

@@ -2,7 +2,7 @@
 
 namespace Odiseo\Bundle\PreorderBundle\Services;
 
-use Odiseo\Bundle\EcommerceBundle\Services\BaseDbService;
+use Odiseo\Bundle\CoreBundle\Services\BaseDbService;
 
 class PreOrderStateService extends BaseDbService
 {
@@ -11,6 +11,7 @@ class PreOrderStateService extends BaseDbService
 	public function __construct($em , $preOrderStateRepository)
 	{
 		parent::__construct($em);
+
 		$this->preOrderStateRepository = $preOrderStateRepository;
 	}
 	
@@ -20,7 +21,8 @@ class PreOrderStateService extends BaseDbService
 		return $this->preOrderStateRepository->findOneByName($name);
 	}
 	
-	protected function getMainRepository() {
+	protected function getMainRepository()
+    {
 		return $this->preOrderStateRepository;		
 	}
 }

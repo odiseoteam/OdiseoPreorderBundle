@@ -88,6 +88,4 @@ interface PreOrderInterface
     public function getArtDate();
 
     public function setArtDate($artDate);
-
-    public function update($otherPreorder);
 }

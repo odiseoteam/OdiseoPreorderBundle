@@ -1,98 +1,27 @@
-email:
-    customer_welcome:
-        subject: 'Bienvenido a Adscandy!'
-
 odiseo:
-    adscandy:
-        about: 'Adscandy'
-        all_types: 'Todos'
-        where_want_buy: 'Donde quieres comprar medios de publicidad?'
-
-        best_sellers:
-            title: 'Más vendidos'
-            text: 'Lorem ipsum sit amet dolor fum quarum.'
-
+    preorder:
         contract:
             accept: 'Aceptar'
             accept_terms: 'Acepto los términos y condiciones'
-            art_date: 'Fecha del arte'
-            art_included: 'Arte incluido'
-            date_from: 'Fecha desde'
-            date_to: 'Fecha hasta'
-            decline: 'Rechazar'
-            description: 'Descripción'
-            details: 'Detalles'
-            edit: 'Editar'
-            pay: 'Pagar'
-            production_included: 'Producción incluida'
-            ready_to: 'Listo para contratar'
+            art_date: 'Artwork date'
+            art_included: 'Artwork included'
+            date_from: 'Date from'
+            date_to: 'Date to'
+            decline: 'Decline'
+            description: 'Description'
+            details: 'Details'
+            edit: 'Edit'
+            pay: 'Pay'
+            production_included: 'Production included'
+            ready_to: 'Ready to'
 
             request:
-                sent: 'Enviado'
+                sent: 'Sent'
 
-            restrictions: 'Restricciones'
-            save: 'Guardar'
-            send: 'Enviar'
-            sent: 'Enviado'
-            submit: 'Enviar'
-            used_for: 'Usar para'
-            verify: 'Verificar'
-
-        faqs: 'Faqs'
-
-        get_started:
-            buy_media:
-                title: 'Comprar Medio'
-                text: 'Lorem ipsum sit amet dolor quarum lit'
-
-            contact:
-                title: 'Contactar'
-                text: 'Lorem ipsum sit amet dolor quarum lit'
-
-            search:
-                title: 'Buscar'
-                text: 'Lorem ipsum sit amet dolor quarum lit'
-
-            text: 'Lorem ipsum sit amet dolor quarum lit'
-            title: 'Cómo <span>Empezar</span>'
-
-        how_it_works: 'Cómo funciona'
-        media_type: 'Tipo de medio'
-        need_help: 'Necesitas ayuda?'
-        search: 'Buscar'
-        settings: 'Configuraciones'
-        view_all: 'Ver todo'
-        welcome: 'Bienvenido a AdsCandy'
-        welcome.text2: 'Vender y comprar medios de publicidad'
-        what_is: 'Qué es AdsCandy?'
-
-    user:
-        wishlist: 'Lista de deseos'
-
-sylius:
-    meta:
-        backend_title: 'AdsCandy - Administración'
-    order:
-        index_main_header: Ordenes <small>Índice de todas las órdenes es su tienda</small>
-    payment:
-        index_main_header: Pagos <small>Índice de todos los pagos en su tienda</small>
-    report:
-        index_main_header: Reportes <small>Índice de todos los reportes en su tienda</small>
-    email:
-        index_main_header: Emails <small>Índice de todos los emails en su tienda</small>
-    user:
-        index_header: Usuarios
-        index_main_header: Usuarios <small>Índice de todos los usuarios en su tienda</small>
-    groups:
-        index_main_header: Grupos <small>Índice de todos los grupos en su tienda</small>
-    role:
-        index_main_header: Roles <small>Índice de todos los roles en su tienda</small>
-    permission:
-        index_main_header: Permisos <small>Índice de todos los permisos en su tienda</small>
-    general:
-        index_main_header: Configuracion General <small>List de las configuraciones generales en su tienda</small>
-    currency:
-        index_main_header: Monedas <small>Índice de todos las monedas en su tienda</small>
-    country:
-        index_main_header: Países <small>Índice de todos los países en su tienda</small>
-    
+            restrictions: 'Restrictions'
+            save: 'Save'
+            send: 'Send Contract'
+            sent: 'Contract Sent'
+            submit: 'Submit'
+            used_for: 'Used for'
+            verify: 'Verify'

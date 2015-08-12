@@ -266,17 +266,4 @@ class PreOrder implements PreOrderInterface
 		$this->artDate = $artDate;
 		return $this;
 	}
-	
-	public function update($otherPreorder)
-	{
-		$this->artDate = $otherPreorder->getArtDate()?$otherPreorder->getArtDate():$this->artDate;
-		$this->termsAndConditions = $otherPreorder->getTermsAndConditions()?$otherPreorder->getTermsAndConditions():$this->termsAndConditions;
-		$this->productionIncluded = $otherPreorder->getProductionIncluded()?$otherPreorder->getProductionIncluded():$this->productionIncluded;
-		$this->artIncluded = $otherPreorder->getArtIncluded()?$otherPreorder->getArtIncluded():$this->artIncluded;
-		$this->userFor = $otherPreorder->getUsedFor()?$otherPreorder->getUsedFor():$this->usedFor;
-		$this->dateFrom = $otherPreorder->getDateFrom()?$otherPreorder->getDateFrom():$this->dateFrom;
-		$this->dateTo = $otherPreorder->getDateTo()?$otherPreorder->getDateTo():$this->dateTo;
-		$this->restrictions = $otherPreorder->getRestrictions()?$otherPreorder->getRestrictions():$this->restrictions;
-		$this->details = $otherPreorder->getDetails()?$otherPreorder->getDetails():$this->details;
-	}
 }

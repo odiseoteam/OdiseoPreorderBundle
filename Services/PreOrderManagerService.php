@@ -22,7 +22,7 @@ class PreOrderManagerService
 	private $preOrderStateService;
 	private $preOrderHandler;
 	
-	public function __construct($preOrderService , $preOrderStateService)
+	public function __construct($preOrderService, $preOrderStateService)
 	{
 		$this->preOrderService = $preOrderService;
 		$this->preOrderStateService = $preOrderStateService;
@@ -118,7 +118,7 @@ class PreOrderManagerService
 		$this->preOrderService->saveOrUpdate($preOrder);
 	}
 	
-	public function createOrder($buyer, $product)
+	public function createPreorder($buyer, $product)
 	{
 		$preOrder = new PreOrder();
 		$preOrder->setBuyer($buyer);
@@ -129,6 +129,20 @@ class PreOrderManagerService
 		$preOrder->setCanVendorControl(false);
 		$preOrder->setIsEditable(true);
 		$preOrder->hasToLog(false);
+
 		return $preOrder;
-	}	
+	}
+
+    public function updatePreorder($oPreorder, $nPreorder)
+    {
+        $oPreorder->setArtDate($nPreorder->getArtDate()?$nPreorder->getArtDate():$oPreorder->getArtDate());
+        $oPreorder->setTermsAndConditions($nPreorder->getTermsAndConditions()?$nPreorder->getTermsAndConditions():$oPreorder->getTermsAndConditions());
+        $oPreorder->setProductionIncluded($nPreorder->getProductionIncluded()?$nPreorder->getProductionIncluded():$oPreorder->getProductionIncluded());
+        $oPreorder->setArtIncluded($nPreorder->getArtIncluded()?$nPreorder->getArtIncluded():$oPreorder->getArtIncluded());
+        $oPreorder->setUsedFor($nPreorder->getUsedFor()?$nPreorder->getUsedFor():$oPreorder->getUsedFor());
+        $oPreorder->setDateFrom($nPreorder->getDateFrom()?$nPreorder->getDateFrom():$oPreorder->getDateFrom());
+        $oPreorder->setDateTo($nPreorder->getDateTo()?$nPreorder->getDateTo():$oPreorder->getDateTo());
+        $oPreorder->setRestrictions($nPreorder->getRestrictions()?$nPreorder->getRestrictions():$oPreorder->getRestrictions());
+        $oPreorder->setDetails($nPreorder->getDetails()?$nPreorder->getDetails():$oPreorder->getDetails());
+    }
 }

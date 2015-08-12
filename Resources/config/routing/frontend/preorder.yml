@@ -1,32 +1,32 @@
 #Show and send request routes
 odiseo_preorder_show_send_request:
     path:     /show-send-request/{productId}
-    defaults: { _controller: "OdiseoPreorderBundle:Frontend/PreOrder:showSendRequestAction" }
+    defaults: { _controller: "odiseo_preorder.controller.preorder:showSendRequestAction" }
     requirements:
         id:  \d+
 
 odiseo_preorder_send_request:
     path:     /send-request/{id}
-    defaults: { _controller: "OdiseoPreorderBundle:Frontend/PreOrder:sendRequest" }
+    defaults: { _controller: "odiseo_preorder.controller.preorder:sendRequestAction" }
     requirements:
         id:  \d+
 
 #Show and send contract routes
 odiseo_preorder_show_send_contract:
     path:     /show-send-contract/{id}/{buyerId}
-    defaults: { _controller: "OdiseoPreorderBundle:Frontend/PreOrder:showSendContract" }
+    defaults: { _controller: "odiseo_preorder.controller.preorder:showSendContractAction" }
     requirements:
         id:  \d+
 
 odiseo_preorder_send_contract:
     path:     /send-contract/{productId}/{buyerId}
-    defaults: { _controller: "OdiseoPreorderBundle:Frontend/PreOrder:sendContract" }
+    defaults: { _controller: "odiseo_preorder.controller.preorder:sendContractAction" }
     requirements:
         id:  \d+
 
 #Details of preorder
 odiseo_preorder_detail:
     path:    /detail/{id}
-    defaults: { _controller: "OdiseoPreorderBundle:Frontend/PreOrder:detail" }
+    defaults: { _controller: "odiseo_preorder.controller.preorder:detailAction" }
     requirements:
         id:  \d+
