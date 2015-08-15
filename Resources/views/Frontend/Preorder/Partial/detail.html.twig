@@ -1,0 +1,59 @@
+{% set cartForm = sylius_cart_form({'product': product}) %}
+<form action="{{ path('sylius_cart_item_add', {'id': product.id, '_redirect_to': path('sylius_checkout_start')}) }}" method="POST">
+    <div class="hide">
+        {{ form_widget(cartForm._token) }}
+        {{ form_row(cartForm.quantity, {'attr': {'class': 'center-text'}, 'empty_value': '1'}) }}
+        {{ form_row(cartForm.preorder, {'attr': {'class': 'center-text'}, 'empty_value': preorder.id}) }}
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <label>{{ 'odiseo.preorder.contract.date_from'|trans }}</label>
+            <p>{{ preorder.dateFrom|date('d/m/Y') }}</p>
+        </div>
+        <div class="col-md-6">
+            <label>{{ 'odiseo.preorder.contract.date_to'|trans }}</label>
+            <p>{{ preorder.dateTo|date('d/m/Y') }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <label>{{ 'odiseo.preorder.contract.used_for'|trans }}</label>
+            <p>{{ preorder.usedFor }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <label>Price</label>
+            <p>{{ product.price|sylius_price }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <label>{{ 'odiseo.preorder.contract.details'|trans }}</label>
+            <p>{{ preorder.details }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <label>{{ 'odiseo.preorder.contract.restrictions'|trans }}</label>
+            <p>{{ preorder.restrictions }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <label>{{ 'odiseo.preorder.contract.art_included'|trans }}:</label> <span>{{ preorder.artIncluded?'Yes':'No' }}</span>
+        </div>
+        <div class="col-md-4">
+            <label>{{ 'odiseo.preorder.contract.production_included'|trans }}:</label> <span>{{ preorder.productionIncluded?'Yes':'No' }}</span>
+        </div>
+        <div class="col-md-4">
+            <label>{{ 'odiseo.preorder.contract.art_date'|trans }}:</label> <span>{{ preorder.artDate|date('d/m/Y') }}</span>
+        </div>
+    </div>
+    <br><br>
+    <div class="row">
+        <div class="col-md-12">
+            <button id="submit" type="submit" class="button_drop">Accept &amp; Pay</button>
+        </div>
+    </div>
+</form>

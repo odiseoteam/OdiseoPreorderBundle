@@ -62,7 +62,6 @@ Odiseo\Bundle\PreorderBundle\Model\PreOrder:
     manyToOne:
         buyer:
             targetEntity: \Odiseo\Bundle\UserBundle\Model\UserInterface
-            inversedBy: orders
             joinColumn:
                 name: buyer_id
                 referencedColumnName: id

@@ -1,8 +1,0 @@
-	{% for record in history %}
-		<div class="preorder history">
-			<p><span>Enviador por:</span><span> </span></p>	
-			<p>{{ record.dateCreated  | date('Y-m-d h:m:s') }}</p><br>
-			<p>{{ record.description }}</p>
-			<p>{{ record.state.name }}</p>
-		</div>
-	{% endfor %}

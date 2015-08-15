@@ -18,7 +18,7 @@ services:
     
     odiseo_preorder.form.type.contract:
         class: Odiseo\Bundle\PreorderBundle\Form\Type\ContractFormType
-        arguments: [ "@router"]
+        arguments: [ "%odiseo_preorder.model.preorder.class%"]
         tags:
             - { name: form.type, alias: odiseo_preorder_contract }
                 
@@ -29,6 +29,6 @@ services:
     
     odiseo_preorder.form.type.request:
         class: Odiseo\Bundle\PreorderBundle\Form\Type\RequestFormType
-        arguments:  [ "@router"]
+        arguments: [ "%odiseo_preorder.model.preorder.class%"]
         tags:
             - { name: form.type, alias: odiseo_preorder_request }

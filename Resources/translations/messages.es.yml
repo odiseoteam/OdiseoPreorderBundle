@@ -22,6 +22,7 @@ odiseo:
             save: 'Save'
             send: 'Send Contract'
             sent: 'Contract Sent'
+            sent: 'Modify Contract'
             submit: 'Submit'
             used_for: 'Used for'
             verify: 'Verify'

@@ -2,11 +2,10 @@
 
 namespace Odiseo\Bundle\PreorderBundle\Form\Type;
 
-use Symfony\Component\Form\AbstractType;
+use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class ContractFormType extends AbstractType
+class ContractFormType extends AbstractResourceType
 {
 	public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -52,13 +51,6 @@ class ContractFormType extends AbstractType
             ))
         ;
     }
-	
-	public function setDefaultOptions(OptionsResolverInterface $resolver)
-	{
-		$resolver->setDefaults(array(
-            'cascade_validation' => true,
-		));
-	}
 
     public function getName()
     {

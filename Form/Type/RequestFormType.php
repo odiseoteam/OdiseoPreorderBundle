@@ -2,11 +2,10 @@
 
 namespace Odiseo\Bundle\PreorderBundle\Form\Type;
 
-use Symfony\Component\Form\AbstractType;
+use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class RequestFormType extends AbstractType
+class RequestFormType extends AbstractResourceType
 {
 	public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -25,14 +24,6 @@ class RequestFormType extends AbstractType
 		    ))
 		;    
     }
-	
-	public function setDefaultOptions(OptionsResolverInterface $resolver)
-	{
-		$resolver->setDefaults(array(
-			'data_class' => 'Odiseo\Bundle\PreorderBundle\Model\PreOrder',
-      		'cascade_validation' => true,
-		));
-	}
 
     public function getName()
     {

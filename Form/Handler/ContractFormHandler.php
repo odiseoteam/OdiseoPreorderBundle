@@ -3,8 +3,8 @@
 namespace Odiseo\Bundle\PreorderBundle\Form\Handler;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\Form\Form;
 use Odiseo\Bundle\PreorderBundle\Services\PreOrderManagerService;
+use Symfony\Component\Form\FormInterface;
 
 class ContractFormHandler
 {
@@ -27,9 +27,9 @@ class ContractFormHandler
     	$this->buyer = $container->get('security.context')->getToken()->getUser();
     }
     
-    public function process(Form $form)
+    public function process(FormInterface $form)
     {
-    	$form->bind($this->request);
+    	$form->submit($this->request);
 
     	if ($form->isValid())
         {
@@ -39,15 +39,17 @@ class ContractFormHandler
     	return false;
     }
     
-    public function processValidForm(Form $form)
+    public function processValidForm(FormInterface $form)
     {
     	$buyerId = $this->request->get('buyerId');
     	$productId = $this->request->get('productId');
+
     	$preOrder = $form->getData();
-    	$savedPreOrder = $this->preOrderService->findPreorderByBuyerAndProduct($buyerId , $productId );
-    	$savedPreOrder->update($preOrder);
+    	$savedPreOrder = $this->preOrderService->findPreorderByBuyerAndProduct($buyerId, $productId);
+
+		$this->preOrderManager->updatePreorder($savedPreOrder, $preOrder);
     	$this->preOrderManager->manage($savedPreOrder, PreOrderManagerService::ACTION_ACEPTAR);
 
-    	return true;
+    	return $savedPreOrder;
     }
 }

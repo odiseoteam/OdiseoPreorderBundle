@@ -28,13 +28,8 @@ class ShowVendorButtonsFormType extends AbstractType
 
 		if($preOrder)
 		{
-    		if(PreOrderState::NUEVA == $preOrder->getState()->getName())
-            {
-                $builder->add('contract', 'button', array('label' => 'odiseo.preorder.contract.send'));
-            } else
-            {
-    			$builder->add('contract', 'button' , array('label' => 'odiseo.preorder.contract.sent', 'disabled' => true));
-    		}
+    		$sendText = PreOrderState::NUEVA == $preOrder->getState()->getName()?'send':'modify';
+			$builder->add('contract', 'button', array('label' => 'odiseo.preorder.contract.'.$sendText));
 		}
     }
 	

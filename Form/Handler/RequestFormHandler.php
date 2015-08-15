@@ -52,6 +52,6 @@ class RequestFormHandler
         $this->preOrderManager->updatePreorder($oldPreorder, $preOrder);
         $this->preOrderManager->manage($oldPreorder, PreOrderManagerService::ACTION_NUEVA);
 
-    	return true;
+    	return $oldPreorder;
     }
 }

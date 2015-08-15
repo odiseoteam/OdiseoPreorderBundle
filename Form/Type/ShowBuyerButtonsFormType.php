@@ -34,7 +34,7 @@ class ShowBuyerButtonsFormType extends AbstractType
     	{
 	    	if( PreOrderState::STATE_ACEPTADA_VENDOR ==  $preOrder->getState()->getName())
 	    	{    		
-	    		$builder->add('pay', 'button' , array('label' => 'odiseo.preorder.contract.pay'));
+	    		$builder->add('pay', 'button', array('label' => 'odiseo.preorder.contract.pay'));
 	    	}
     	}
     }

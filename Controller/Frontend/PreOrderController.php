@@ -30,7 +30,8 @@ class PreOrderController extends ResourceController
 			return $this->render('OdiseoPreorderBundle:Frontend/Preorder/Partial:vendor_buttons.html.twig', array(
 				'form' => $form->createView(), 
 				'id' => $product->getId(), 
-				'buyerId' => $buyerId
+				'buyerId' => $buyerId,
+				'preOrder' => $preOrder
 			));
 		}
 		else
@@ -40,7 +41,8 @@ class PreOrderController extends ResourceController
 			return $this->render('OdiseoPreorderBundle:Frontend/Preorder/Partial:buyer_buttons.html.twig', array(
 				'form' => $form->createView(), 
 				'id' => $product->getId(), 
-				'product' => $product					
+				'product' => $product,
+				'preOrder' => $preOrder
 			));
 		}
 	}
@@ -58,16 +60,39 @@ class PreOrderController extends ResourceController
 
     public function sendRequestAction(Request $request)
     {
-        $id = $request->get('id');
-        $formHandler = $this->container->get('odiseo_preorder.form.handler.request');
-        $form = $this->get('form.factory')->create('odiseo_preorder_request');
+        $productId = $request->get('id');
 
-        if ($formHandler->process($form, $request, $id))
+        $form = $this->get('form.factory')->create('odiseo_preorder_request');
+		$formHandler = $this->container->get('odiseo_preorder.form.handler.request');
+
+        if ($preorder = $formHandler->process($form, $request, $productId))
         {
-            return $this->redirect($this->generateUrl('odiseo_messaging_list', array('productId' => $id)));
+			$productService = $this->get('odiseo_product.service.product');
+			$composer = $this->get('fos_message.composer');
+			$sender = $this->get('fos_message.sender');
+
+			$user = $this->get('security.context')->getToken()->getUser();
+			$product = $productService->findOneById($productId);
+
+			$message = $composer->newThread()
+				->setSender($user)
+				->addRecipient($product->getVendor())
+				->setSubject('Preorder of product')
+				->setBody('I want buy your media to be used for: "'.$preorder->getUsedFor().'"')
+				->getMessage()
+			;
+
+			$thread = $message->getThread();
+			$thread->setTopic($product);
+
+			$sender->send($message);
+
+            return $this->redirect($this->generateUrl('odiseo_messaging_list', array(
+				'threadId' => $thread->getId()
+			)));
         }
 
-        return $this->redirect($this->generateUrl('odiseo_product_show', array('id' => $id)));
+        return $this->redirect($this->generateUrl('odiseo_product_show', array('id' => $productId)));
     }
 
     /** Show and send contract */
@@ -75,10 +100,11 @@ class PreOrderController extends ResourceController
 	{
 		$productId = $request->get('id');
 		$buyerId = $request->get('buyerId');
-        $form = $this->get('form.factory')->create('odiseo_preorder_contract');
 		
-		$preOrder = $this->get('odiseo_preorder.service.preorder')->findPreorderByBuyerAndProduct($buyerId , $productId );
-		
+		$preOrder = $this->get('odiseo_preorder.service.preorder')->findPreorderByBuyerAndProduct($buyerId , $productId);
+
+		$form = $this->get('form.factory')->create('odiseo_preorder_contract', $preOrder);
+
 		$productService = $this->get('odiseo_product.service.product');
 		$product = $productService->findOneById($productId);
 
@@ -95,57 +121,45 @@ class PreOrderController extends ResourceController
 	
 	public function sendContractAction(Request $request)
 	{
-		$id = $request->get('productId');
-		$creatorId = $request->get('buyerId');
         $form = $this->get('form.factory')->create('odiseo_preorder_contract');
 		$handler = $this->get('odiseo_preorder.form.handler.contract');
 		
-		if($handler->process($form))
+		if($preOrder = $handler->process($form))
 		{
-			return $this->redirect($this->generateUrl('odiseo_messaging_list', array(
-                'productId' => $id,
-                'creatorId' =>  $creatorId
-            )));
+			return new JsonResponse(array(
+				'error' => false,
+				'html' => $this->renderView('OdiseoPreorderBundle:Frontend/Preorder/Partial:contract_sent.html.twig', array(
+					'preOrder' => $preOrder
+				))
+			));
 		}else
-        {}
+        {
+			return new JsonResponse(array(
+				'error' => false,
+				'html' => $this->renderView('OdiseoPreorderBundle:Frontend/Preorder/Partial:show_send_contract.html.twig', array(
+					'product' => $preOrder->getProduct()->getId(),
+					'buyerId' => $preOrder->getBuyer()->getId(),
+					'preOrder' => $preOrder,
+					'form' => $form->createView()
+				))
+			));
+		}
 	}
 
     /** Details of preorder */
 	public function detailAction(Request $request)
 	{
 		$id = $request->get('id');
-		$preOrderService = $this->get('odiseo_preorder.service.preorder');
-		$preOrder = $preOrderService->findOneById($id);
-		$user = $this->get('security.context')->getToken()->getUser();
-	
-		$form = $this->createForm(new PreOrderFormType($preOrder, $user), $preOrder, array(
-				'action' => $this->generateUrl('odiseo_preorder_detail',  array('id' => $id))				
+		$preorderService = $this->get('odiseo_preorder.service.preorder');
+		$preorder = $preorderService->findOneById($id);
+
+		return new JsonResponse(array(
+			'error' => false,
+			'html' => $this->renderView('OdiseoPreorderBundle:Frontend/Preorder/Partial:detail.html.twig', array(
+				'preorder' => $preorder,
+				'product' => $preorder->getProduct()
+			))
 		));
-		
-		if($request->isMethod('POST'))
-		{
-			$form->handleRequest($request);
-			if ($form->isValid())
-			{
-				$managerService = $this->get('odiseo_preorder.service.preorder_manager');
-				$newDescription = $form->getData()->getDescription();
-				$preOrder->setDescription($newDescription);
-				$managerService->manage($preOrder, $this->getSelectedAction($form));
-			}
-			else {}
-		}
-
-		$form = $this->createForm(new PreOrderFormType(), $preOrder, array(
-            'action' => $this->generateUrl('odiseo_preorder_detail',  array(
-                'id' => $id
-            ))
-        ));
-
-		return $this->render('OdiseoPreorderBundle:Frontend/Preorder:detail.html.twig', array(
-            'preorder' => $preOrder,
-            'product' => $preOrder->getProduct(),
-            'form' => $form->createView()
-        ));
 	}
 
 	public function getSelectedAction($form)
