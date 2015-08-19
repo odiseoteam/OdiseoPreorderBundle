@@ -32,11 +32,13 @@ class ContractFormType extends AbstractResourceType
 		    ))
 		    ->add('artIncluded', 'checkbox', array(
 				'required'  => 'true',
-				'label' => 'odiseo.preorder.contract.art_included'
+				'label' => 'odiseo.preorder.contract.art_included',
+				'required' => false
 		    ))
 		    ->add('productionIncluded', 'checkbox', array(
 				'required'  => 'true',
-				'label' => 'odiseo.preorder.contract.production_included'
+				'label' => 'odiseo.preorder.contract.production_included',
+				'required' => false
 		    ))
 		    ->add('artDate', 'date', array(
 		  	    'widget' => 'single_text',

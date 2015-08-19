@@ -3,7 +3,7 @@
     <div class="hide">
         {{ form_widget(cartForm._token) }}
         {{ form_row(cartForm.quantity, {'attr': {'class': 'center-text'}, 'empty_value': '1'}) }}
-        {{ form_row(cartForm.preorder, {'attr': {'class': 'center-text'}, 'empty_value': preorder.id}) }}
+        {{ form_row(cartForm.preorder, {'attr': {'value': preorder.id}}) }}
     </div>
     <div class="row">
         <div class="col-md-6">

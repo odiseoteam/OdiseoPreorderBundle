@@ -51,10 +51,14 @@ Odiseo\Bundle\PreorderBundle\Model\PreOrder:
             column: art_included
             type: boolean
             nullable: true
+            options:
+                default: 0
         productionIncluded:
             column: production_included
             type: boolean
             nullable: true
+            options:
+                default: 0
         termsAndConditions:
             column: terms_conditions
             type: boolean
