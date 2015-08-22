@@ -26,12 +26,14 @@ Odiseo\Bundle\PreorderBundle\Model\PreOrderHistory:
         restrictions:
             column: restrictions
             type: text
+            nullable: true
         state:
             column: state
             type: text
         details:
             column: details
             type: text
+            nullable: true
         canVendorControl:
             column: vendor_control
             type: boolean

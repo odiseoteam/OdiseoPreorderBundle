@@ -2,6 +2,7 @@
 
 namespace Odiseo\Bundle\PreorderBundle\Controller\Frontend;
 
+use Odiseo\Bundle\MessagingBundle\Model\Thread;
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
 use Symfony\Component\HttpFoundation\Request;
 use Odiseo\Bundle\PreorderBundle\Form\Type\PreOrderFormType;
@@ -13,7 +14,7 @@ class PreOrderController extends ResourceController
 	{
 		$productService = $this->get('odiseo_product.service.product');
 		$preOrderService = $this->get('odiseo_preorder.service.preorder');
-		$preOrder = $preOrderService->findPreorderByBuyerAndProduct($buyerId, $productId);
+		$preOrder = $preOrderService->getMainRepository()->findLastByBuyerAndProduct($buyerId, $productId);
 		$product = $productService->findOneById($productId);
 		
 		return $this->getButtonFormResponse($product, $buyerId, $preOrder);
@@ -70,20 +71,33 @@ class PreOrderController extends ResourceController
 			$productService = $this->get('odiseo_product.service.product');
 			$composer = $this->get('fos_message.composer');
 			$sender = $this->get('fos_message.sender');
+			$threadService = $this->get('odiseo_messaging.service.thread_message');
 
 			$user = $this->get('security.context')->getToken()->getUser();
 			$product = $productService->findOneById($productId);
 
-			$message = $composer->newThread()
-				->setSender($user)
-				->addRecipient($product->getVendor())
-				->setSubject('Preorder of product')
-				->setBody('I want buy your media to be used for: "'.$preorder->getUsedFor().'"')
-				->getMessage()
-			;
+			/** @var Thread $thread */
+			$thread = $threadService->searchThreadByCreatorAndTopic($user->getId(), $product->getId());
 
-			$thread = $message->getThread();
-			$thread->setTopic($product);
+			if($thread)
+			{
+				$message = $composer->reply($thread)
+					->setSender($user)
+					->getMessage()
+				;
+			}else
+			{
+				$message = $composer->newThread()
+					->setSubject('Preorder of product')
+					->setSender($user)
+					->addRecipient($product->getVendor())
+					->getMessage()
+				;
+				$thread = $message->getThread();
+				$thread->setTopic($product);
+			}
+
+			$message->setBody('I want buy your media to be used for: "'.$preorder->getUsedFor().'"');
 
 			$sender->send($message);
 
@@ -101,7 +115,7 @@ class PreOrderController extends ResourceController
 		$productId = $request->get('id');
 		$buyerId = $request->get('buyerId');
 		
-		$preOrder = $this->get('odiseo_preorder.service.preorder')->findPreorderByBuyerAndProduct($buyerId , $productId);
+		$preOrder = $this->get('odiseo_preorder.service.preorder')->getMainRepository()->findLastByBuyerAndProduct($buyerId , $productId);
 
 		$form = $this->get('form.factory')->create('odiseo_preorder_contract', $preOrder);
 

@@ -28,7 +28,7 @@ class ShowBuyerButtonsFormType extends AbstractType
 	public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $productId = $this->request->get('productId');
-        $preOrder = $this->preOrderService->findPreorderByBuyerAndProduct($this->buyer->getId(), $productId);
+        $preOrder = $this->preOrderService->getMainRepository()->findLastByBuyerAndProduct($this->buyer->getId(), $productId);
 
     	if($preOrder)
     	{

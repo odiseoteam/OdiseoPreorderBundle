@@ -2,6 +2,8 @@
 
 namespace Odiseo\Bundle\PreorderBundle\Form\Handler;
 
+use Odiseo\Bundle\PreorderBundle\Model\PreOrder;
+use Odiseo\Bundle\PreorderBundle\Model\PreOrderState;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\FormInterface;
 use Odiseo\Bundle\PreorderBundle\Services\PreOrderManagerService;
@@ -40,8 +42,9 @@ class RequestFormHandler
     {
     	$buyerId = $this->buyer->getId();
     	$product = $this->productService->findOneById($productId);
-    	
-    	$oldPreorder = $this->preOrderService->findPreorderByBuyerAndProduct($buyerId, $productId);
+
+		/** @var PreOrder $oldPreorder */
+    	$oldPreorder = $this->preOrderService->getMainRepository()->findOneNewByBuyerAndProduct($buyerId, $productId);
     	if($oldPreorder == null)
     	{
             $oldPreorder = $this->preOrderManager->createPreorder($this->buyer, $product);

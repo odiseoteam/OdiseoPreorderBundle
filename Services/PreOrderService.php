@@ -15,14 +15,14 @@ class PreOrderService extends BaseDbService
 		$this->preOrderRepository = $preOrderRepository;
 	}
 	
-	protected function getMainRepository()
+	public function getMainRepository()
     {
 		return $this->preOrderRepository;		
 	}
 	
 	public function findPreorderByBuyerAndProduct($buyerId, $productId)
     {
-		return $this->findOneByKeysValues(array( 'buyer' => $buyerId, 'product' => $productId));
+		return $this->findOneByKeysValues(array('buyer' => $buyerId, 'product' => $productId));
 	}
 	
 	public function findVendorPreorders($vendorId)

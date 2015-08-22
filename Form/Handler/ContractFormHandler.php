@@ -45,7 +45,7 @@ class ContractFormHandler
     	$productId = $this->request->get('productId');
 
     	$preOrder = $form->getData();
-    	$savedPreOrder = $this->preOrderService->findPreorderByBuyerAndProduct($buyerId, $productId);
+    	$savedPreOrder = $this->preOrderService->getMainRepository()->findLastByBuyerAndProduct($buyerId, $productId);
 
 		$this->preOrderManager->updatePreorder($savedPreOrder, $preOrder);
     	$this->preOrderManager->manage($savedPreOrder, PreOrderManagerService::ACTION_ACEPTAR);

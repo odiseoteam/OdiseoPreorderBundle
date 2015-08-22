@@ -23,7 +23,7 @@ class ShowVendorButtonsFormType extends AbstractType
     {
     	$productId = $this->request->get('productId');
     	$buyerId  = $this->request->get('buyerId');
-    	$preOrder = $this->preOrderService->findPreorderByBuyerAndProduct($buyerId, $productId);
+    	$preOrder = $this->preOrderService->getMainRepository()->findLastByBuyerAndProduct($buyerId, $productId);
     	$builder->add('decline', 'button' , array('label' => 'odiseo.preorder.contract.decline'));
 
 		if($preOrder)
