@@ -7,6 +7,16 @@
     </div>
     <div class="row">
         <div class="col-md-6">
+            <label>Buyer</label>
+            <p>{{ preorder.buyer.fullname }}</p>
+        </div>
+        <div class="col-md-6">
+            <label>Vendor</label>
+            <p>{{ product.vendor.fullname }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
             <label>{{ 'odiseo.preorder.contract.date_from'|trans }}</label>
             <p>{{ preorder.dateFrom|date('d/m/Y') }}</p>
         </div>
@@ -16,13 +26,11 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
             <label>{{ 'odiseo.preorder.contract.used_for'|trans }}</label>
             <p>{{ preorder.usedFor }}</p>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
             <label>Price</label>
             <p>{{ product.price|sylius_price }}</p>
         </div>

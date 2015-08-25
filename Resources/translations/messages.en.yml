@@ -24,5 +24,5 @@ odiseo:
             sent: 'Contract Sent'
             modify: 'Modify Contract'
             submit: 'Submit'
-            used_for: 'Used for'
+            used_for: 'What kind of advertising are you looking to place on this media?'
             verify: 'Verify'

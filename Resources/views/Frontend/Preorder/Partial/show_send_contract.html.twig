@@ -6,6 +6,20 @@
 	<div class="row">
 		<div class="col-md-6">
 			<div class="form-group">
+				<label class="control-label">Buyer</label>
+				<p>{{ preOrder.buyer.fullname }}</p>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="form-group">
+				<label class="control-label">Vendor</label>
+				<p>{{ product.vendor.fullname }}</p>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+			<div class="form-group">
 				{{ form_label( form.dateFrom ) }}
 				{{ form_widget(form.dateFrom ) }}
 			</div>
@@ -18,13 +32,11 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-12">
+		<div class="col-md-6">
 			<label class="control-label"> This media will be used for </label><br>
 			<p>{{ preOrder.usedFor }}</p>
 		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-12">
+		<div class="col-md-6">
 			<label class="control-label"> Price </label><br>
 			<p>{{ product.price|sylius_price }}</p>
 		</div>
@@ -33,7 +45,7 @@
 		<div class="col-md-12">
 			<div class="form-group">
 				{{ form_label(form.details) }}
-				{{ form_widget(form.details, { 'attr' : { 'rows' : '3' , 'cols' : '10'}   } ) }}
+				{{ form_widget(form.details, { 'value': product.includes, 'attr' : { 'rows' : '3' , 'cols' : '10'}   } ) }}
 			</div>
 		</div>
 	</div>
@@ -41,7 +53,7 @@
 		<div class="col-md-12">
 			<div class="form-group">
 				{{ form_label(form.restrictions) }}
-				{{ form_widget(form.restrictions , { 'attr' : { 'rows' : '3' , 'cols' : '10'}   } ) }}
+				{{ form_widget(form.restrictions , { 'value': product.restrictions, 'attr' : { 'rows' : '3' , 'cols' : '10'}   } ) }}
 			</div>
 		</div>
 	</div>
