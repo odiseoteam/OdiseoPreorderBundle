@@ -1,5 +1,7 @@
 {% form_theme form 'bootstrap_3_layout.html.twig' %}
 
+{{ tinymce_init({'theme': {'simple': {'menubar': false, 'statusbar': false, 'toolbar': "undo redo | bold italic | bullist numlist outdent indent"}}}) }}
+
 <form id="odiseo_preorder_send_contract_form" action="{{ path('odiseo_preorder_send_contract', {'productId': product.id, 'buyerId': buyerId }) }}" method="POST">
 	{{include('OdiseoPreorderBundle:Frontend/Preorder/Partial:errors.html.twig', {'form' : form }) }}
 	{{form_row(form._token) }}

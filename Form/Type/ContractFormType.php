@@ -24,11 +24,17 @@ class ContractFormType extends AbstractResourceType
 		    ))
 		    ->add('restrictions', 'textarea', array(
 				'required'  => 'true',
-				'label' => 'odiseo.preorder.contract.restrictions'
+				'label' => 'odiseo.preorder.contract.restrictions',
+				'attr' => array(
+					'class' => 'tinymce'
+				)
 		    ))
 		    ->add('details', 'textarea', array(
 				'required'  => 'true',
-				'label' => 'odiseo.preorder.contract.details'
+				'label' => 'odiseo.preorder.contract.details',
+				'attr' => array(
+					'class' => 'tinymce'
+				)
 		    ))
 		    ->add('artIncluded', 'checkbox', array(
 				'required'  => 'true',
