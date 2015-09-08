@@ -36,7 +36,11 @@ var showSendContractModalSuccess = function(data)
     {
         modalContent.html("Ha ocurrido un error");
     }
-
+    $('.terms_and_conditions').click(function(event){
+        if (this.checked) {
+            $( document ).trigger( "product:creation:domReady", [ ] );
+        }
+    });
     $('#odiseo_preorder_send_contract_form').submit(sendContract);
 };
 
