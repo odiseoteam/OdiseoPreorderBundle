@@ -13,6 +13,7 @@ var showSendContractModalSuccess = function(data)
 
 var sendContract = function()
 {
+    $('.new_price').val(  $('.new_price').val()*100 );
     var modalContent = $('#sendContractModal .modal-body');
     var loadingContent = $('#sendContractModal .loading-content');
     modalContent.append(loadingContent.html());
@@ -32,6 +33,13 @@ var showSendContractModalSuccess = function(data)
     if (data.error == false)
     {
         modalContent.html(data.html);
+        $('.edit_price').click(function( event){
+            event.stopPropagation();
+            $('.contract_price').hide();
+            $('.new_price').show();
+            $('.new_price').val( $('.new_price').val().substring(1));
+
+        });
     }else
     {
         modalContent.html("Ha ocurrido un error");
@@ -46,7 +54,7 @@ var showSendContractModalSuccess = function(data)
 
 var showSendContractModal = function()
 {
-    $('#sendContractModal').modal('show');
+   $('#sendContractModal').modal('show');
     var form = $("form[name='odiseo_preorder_show_send_contract']");
     form.ajaxSubmit({
         success: showSendContractModalSuccess

@@ -144,5 +144,6 @@ class PreOrderManagerService
         $oPreorder->setDateTo($nPreorder->getDateTo()?$nPreorder->getDateTo():$oPreorder->getDateTo());
         $oPreorder->setRestrictions($nPreorder->getRestrictions()?$nPreorder->getRestrictions():$oPreorder->getRestrictions());
         $oPreorder->setDetails($nPreorder->getDetails()?$nPreorder->getDetails():$oPreorder->getDetails());
+		$oPreorder->setPrice($nPreorder->getPrice());
     }
 }

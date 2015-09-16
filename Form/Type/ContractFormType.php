@@ -29,6 +29,10 @@ class ContractFormType extends AbstractResourceType
 					'class' => 'tinymce'
 				)
 		    ))
+			->add('price', 'text', array(
+				'required'  => 'true',
+				'label' => 'odiseo.preorder.contract.price'
+			))
 		    ->add('details', 'textarea', array(
 				'required'  => 'true',
 				'label' => 'odiseo.preorder.contract.details',

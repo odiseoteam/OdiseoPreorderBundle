@@ -26,7 +26,18 @@ class PreOrder implements PreOrderInterface
     private $artIncluded;
     private $productionIncluded;
     private $termsAndConditions;
-    private $artDate;   
+    private $artDate;
+	private $price;
+
+	public function getPrice()
+	{
+		return $this->price;
+	}
+
+	public function setPrice($price)
+	{
+		$this->price = $price;
+	}
 
     public function __construct()
     {

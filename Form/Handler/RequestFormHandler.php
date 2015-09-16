@@ -51,7 +51,7 @@ class RequestFormHandler
     	}
 
     	$preOrder = $form->getData();
-
+		$preOrder->setPrice($product->getPrice());
         $this->preOrderManager->updatePreorder($oldPreorder, $preOrder);
         $this->preOrderManager->manage($oldPreorder, PreOrderManagerService::ACTION_NUEVA);
 

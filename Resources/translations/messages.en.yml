@@ -12,8 +12,10 @@ odiseo:
             details: 'Details'
             edit: 'Edit'
             pay: 'Pay'
+            price: 'Price'
             production_included: 'Production included'
             ready_to: 'Ready to'
+            edit: 'Edit'
 
             request:
                 sent: 'Sent'
