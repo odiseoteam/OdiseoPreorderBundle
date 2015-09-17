@@ -2,7 +2,7 @@ odiseo:
     preorder:
         contract:
             accept: 'Accept'
-            accept_terms: 'I accept terms and conditions'
+            accept_terms: 'I accept <a href="%link%" target="_blank">terms and conditions</a>'
             art_date: 'Artwork date'
             art_included: 'Artwork included'
             date_from: 'Date from'
