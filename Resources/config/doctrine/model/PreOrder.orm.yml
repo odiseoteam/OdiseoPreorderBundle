@@ -20,6 +20,10 @@ Odiseo\Bundle\PreorderBundle\Model\PreOrder:
         dateFrom:
             column: dateFrom
             type: datetime
+        price:
+            column: price
+            type: integer
+            nullable: true
         artDate:
             column: artDate
             type: datetime

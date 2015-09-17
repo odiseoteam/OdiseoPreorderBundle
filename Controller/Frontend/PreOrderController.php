@@ -114,7 +114,7 @@ class PreOrderController extends ResourceController
 	{
 		$productId = $request->get('id');
 		$buyerId = $request->get('buyerId');
-		
+
 		$preOrder = $this->get('odiseo_preorder.service.preorder')->getMainRepository()->findLastByBuyerAndProduct($buyerId , $productId);
 
 		$form = $this->get('form.factory')->create('odiseo_preorder_contract', $preOrder);

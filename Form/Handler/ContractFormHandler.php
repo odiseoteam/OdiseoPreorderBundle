@@ -30,7 +30,6 @@ class ContractFormHandler
     public function process(FormInterface $form)
     {
     	$form->submit($this->request);
-
     	if ($form->isValid())
         {
     		return $this->processValidForm($form);
@@ -45,7 +44,7 @@ class ContractFormHandler
     	$productId = $this->request->get('productId');
 
     	$preOrder = $form->getData();
-    	$savedPreOrder = $this->preOrderService->getMainRepository()->findLastByBuyerAndProduct($buyerId, $productId);
+		$savedPreOrder = $this->preOrderService->getMainRepository()->findLastByBuyerAndProduct($buyerId, $productId);
 
 		$this->preOrderManager->updatePreorder($savedPreOrder, $preOrder);
     	$this->preOrderManager->manage($savedPreOrder, PreOrderManagerService::ACTION_ACEPTAR);
