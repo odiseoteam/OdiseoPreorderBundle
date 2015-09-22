@@ -20,3 +20,10 @@ services:
         class: Odiseo\Bundle\PreorderBundle\EventListener\PreOrderUpdateSubscriber
         tags:
             - { name: doctrine.event_subscriber, connection: default }
+
+    odiseo_product.listener.default_review:
+        class: Odiseo\Bundle\PreorderBundle\EventListener\PreCreationReviewEventListener
+        arguments:  [ "@odiseo_product.service.product_ranking" , "@odiseo_product.service.product" , "@odiseo_preorder.service.preorder"]
+        tags:
+            - { name: kernel.event_listener, event: odiseo.review.pre_review_creation_init, method: onPreReviewCreation }
+            - { name: kernel.event_listener, event: odiseo.review.new_review_added, method: onNewReview }

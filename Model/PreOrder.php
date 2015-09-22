@@ -28,6 +28,7 @@ class PreOrder implements PreOrderInterface
     private $termsAndConditions;
     private $artDate;
 	private $price;
+	private $reviewPending;
 
 	public function getPrice()
 	{
@@ -36,7 +37,14 @@ class PreOrder implements PreOrderInterface
 
 	public function setPrice($price)
 	{
-		$this->price = $price;
+		if ($this->isPriceEditable() || $this->price == null || $this->state == null )
+			$this->price = $price;
+	}
+
+	public function isPriceEditable(){
+
+			return   (null != $this->state) && ($this->state->getName() == PreOrderState::NUEVA || $this->state->getName() == PreOrderState::RECHAZADA_BUYER) ;
+
 	}
 
     public function __construct()
@@ -276,5 +284,15 @@ class PreOrder implements PreOrderInterface
 	{
 		$this->artDate = $artDate;
 		return $this;
+	}
+
+	public function isReviewPending()
+	{
+		return $this->reviewPending;
+	}
+
+	public function setReviewPending($reviewPending)
+	{
+		$this->reviewPending = $reviewPending;
 	}
 }
