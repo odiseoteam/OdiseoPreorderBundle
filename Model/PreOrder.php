@@ -29,16 +29,6 @@ class PreOrder implements PreOrderInterface
     private $artDate;
 	private $price;
 
-	public function getPrice()
-	{
-		return $this->price;
-	}
-
-	public function setPrice($price)
-	{
-		$this->price = $price;
-	}
-
     public function __construct()
     {
     	$this->dateCreated = new DateTime('now');
@@ -276,5 +266,15 @@ class PreOrder implements PreOrderInterface
 	{
 		$this->artDate = $artDate;
 		return $this;
+	}
+
+	public function getPrice()
+	{
+		return $this->price;
+	}
+
+	public function setPrice($price)
+	{
+		$this->price = $price;
 	}
 }

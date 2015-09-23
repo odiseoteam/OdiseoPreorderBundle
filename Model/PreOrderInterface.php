@@ -88,4 +88,8 @@ interface PreOrderInterface
     public function getArtDate();
 
     public function setArtDate($artDate);
+
+    public function getPrice();
+
+    public function setPrice($price);
 }

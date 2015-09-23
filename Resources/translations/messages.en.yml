@@ -25,6 +25,7 @@ odiseo:
             send: 'Send Contract'
             sent: 'Contract Sent'
             modify: 'Modify Contract'
+            accept_pop: 'Accept POP'
             submit: 'Submit'
             used_for: 'What kind of advertising are you looking to place on this media?'
             verify: 'Verify'

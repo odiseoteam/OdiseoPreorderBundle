@@ -3,6 +3,7 @@
 namespace Odiseo\Bundle\PreorderBundle\Controller\Frontend;
 
 use Odiseo\Bundle\MessagingBundle\Model\Thread;
+use Odiseo\Bundle\PreorderBundle\Event\PreOrderEvent;
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
 use Symfony\Component\HttpFoundation\Request;
 use Odiseo\Bundle\PreorderBundle\Form\Type\PreOrderFormType;
@@ -174,6 +175,19 @@ class PreOrderController extends ResourceController
 				'product' => $preorder->getProduct()
 			))
 		));
+	}
+
+	public function acceptPopAction(Request $request)
+	{
+		$id = $request->get('id');
+		$preorderService = $this->get('odiseo_preorder.service.preorder');
+		$preorder = $preorderService->findOneById($id);
+
+		$preorderEvent = new PreOrderEvent($preorder);
+		$this->get('event_dispatcher')->dispatch(PreOrderEvent::PRE_ORDER_ACCEPT_POP, $preorderEvent);
+
+		$referer = $request->headers->get('referer');
+		return $this->redirect($referer);
 	}
 
 	public function getSelectedAction($form)

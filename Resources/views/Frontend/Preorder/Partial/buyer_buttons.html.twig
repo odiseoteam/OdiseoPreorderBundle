@@ -4,4 +4,9 @@
 		{{ form_widget(form.pay, {'attr': {'class':'button_drop', 'style' : 'display:inline;'}}) }}
 	</form>
  	{% endif %}
+	{% if form.accept_pop is defined %}
+		<form action="{{ path('odiseo_preorder_accept_pop', {'id': preOrder.id}) }}" name="odiseo_preorder_accept_pop" method="post" style="display:inline;">
+			{{ form_widget(form.accept_pop, {'attr': {'class':'button_drop', 'style' : 'display:inline;'}}) }}
+		</form>
+	{% endif %}
 {% endif %}
