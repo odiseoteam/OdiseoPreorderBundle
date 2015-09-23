@@ -92,4 +92,8 @@ interface PreOrderInterface
     public function getPrice();
 
     public function setPrice($price);
+
+    public function isReviewPending();
+
+    public function setReviewPending($reviewPending);
 }
