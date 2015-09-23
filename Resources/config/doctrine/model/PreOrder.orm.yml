@@ -67,6 +67,10 @@ Odiseo\Bundle\PreorderBundle\Model\PreOrder:
             column: terms_conditions
             type: boolean
             nullable: true
+        reviewPending:
+                    column: review_pending
+                    type: boolean
+                    nullable: true
     manyToOne:
         buyer:
             targetEntity: \Odiseo\Bundle\UserBundle\Model\UserInterface
