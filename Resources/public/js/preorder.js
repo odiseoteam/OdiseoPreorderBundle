@@ -13,7 +13,6 @@ var showSendContractModalSuccess = function(data)
 
 var sendContract = function()
 {
-    //$('.new_price').val(  $('.new_price').val()*100 );
     var modalContent = $('#sendContractModal .modal-body');
     var loadingContent = $('#sendContractModal .loading-content');
     modalContent.append(loadingContent.html());
@@ -37,8 +36,6 @@ var showSendContractModalSuccess = function(data)
             event.stopPropagation();
             $('.contract_price').hide();
             $('.new_price').show();
-            //$('.new_price').val( $('.new_price').val().substring(1));
-
         });
     }else
     {
