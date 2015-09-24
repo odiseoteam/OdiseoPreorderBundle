@@ -29,7 +29,7 @@ class ContractFormType extends AbstractResourceType
 					'class' => 'tinymce'
 				)
 		    ))
-			->add('price', 'text', array(
+			->add('price', 'sylius_money', array(
 				'required'  => 'true',
 				'label' => 'odiseo.preorder.contract.price'
 			))
