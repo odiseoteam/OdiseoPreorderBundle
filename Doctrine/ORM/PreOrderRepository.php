@@ -18,9 +18,10 @@ class PreOrderRepository extends EntityRepository
     public function findAllByVendorQuery($vendorId)
     {
         return $this->createQueryBuilder('po')
-            ->leftJoin('po.product', 'p')
+            ->innerJoin('po.product', 'p')
             ->leftJoin('p.vendor', 'v')
             ->where('v.id=:vendorId')
+            ->andWhere('p.deletedAt IS NULL')
             ->setParameter('vendorId', $vendorId)
             ->getQuery()
         ;
@@ -36,6 +37,30 @@ class PreOrderRepository extends EntityRepository
 
     /**
      * @param $buyerId
+     * @return QueryBuilder
+     */
+    public function findAllByBuyerQuery($buyerId)
+    {
+        return $this->createQueryBuilder('po')
+            ->innerJoin('po.product', 'p')
+            ->leftJoin('po.buyer', 'b')
+            ->where('b.id=:buyerId')
+            ->andWhere('p.deletedAt IS NULL')
+            ->setParameter('buyerId', $buyerId)
+            ->getQuery()
+            ;
+    }
+
+    /**
+     * @param $buyerId
+     */
+    public function findAllByBuyer($buyerId)
+    {
+        return $this->findAllByBuyerQuery($buyerId)->getResult();
+    }
+
+    /**
+     * @param $buyerId
      * @param $productId
      *
      * @return QueryBuilder
@@ -47,6 +72,7 @@ class PreOrderRepository extends EntityRepository
             ->leftJoin($this->getAlias().'.product', 'p')
             ->andWhere('b.id = :buyerId')
             ->andWhere('p.id = :productId')
+            ->andWhere('p.deletedAt IS NULL')
             ->setParameter('buyerId', $buyerId)
             ->setParameter('productId', $productId)
             ->orderBy($this->getAlias().'.dateCreated', 'DESC')
@@ -79,6 +105,7 @@ class PreOrderRepository extends EntityRepository
             ->leftJoin($this->getAlias().'.state', 's')
             ->andWhere('b.id = :buyerId')
             ->andWhere('p.id = :productId')
+            ->andWhere('p.deletedAt IS NULL')
             ->andWhere('s.name = :stateName')
             ->setParameter('buyerId', $buyerId)
             ->setParameter('productId', $productId)

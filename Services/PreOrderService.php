@@ -37,6 +37,6 @@ class PreOrderService extends BaseDbService
 	
 	public function findBuyerPreorders($buyerId)
     {
-		return $this->findByKeyValue( 'buyer' , $buyerId);
+		return $this->preOrderRepository->findAllByBuyer($buyerId);
 	}
 }

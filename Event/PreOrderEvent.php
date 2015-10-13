@@ -12,6 +12,7 @@ class PreOrderEvent extends Event
 	 * @var string
 	 */
 	const PRE_ORDER_REQUEST_SENT = 'preorder.request.sent';
+	const PRE_ORDER_CONTRACT_SENT = 'preorder.contract.sent';
 	const PRE_ORDER_ACCEPT_POP = 'preorder.accept_pop';
 
 	/**

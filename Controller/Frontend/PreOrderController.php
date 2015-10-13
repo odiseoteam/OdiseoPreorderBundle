@@ -4,6 +4,7 @@ namespace Odiseo\Bundle\PreorderBundle\Controller\Frontend;
 
 use Odiseo\Bundle\MessagingBundle\Model\Thread;
 use Odiseo\Bundle\PreorderBundle\Event\PreOrderEvent;
+use Odiseo\Bundle\PreorderBundle\Model\PreOrderInterface;
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
 use Symfony\Component\HttpFoundation\Request;
 use Odiseo\Bundle\PreorderBundle\Form\Type\PreOrderFormType;
@@ -70,37 +71,15 @@ class PreOrderController extends ResourceController
         if ($preorder = $formHandler->process($form, $request, $productId))
         {
 			$productService = $this->get('odiseo_product.service.product');
-			$composer = $this->get('fos_message.composer');
-			$sender = $this->get('fos_message.sender');
 			$threadService = $this->get('odiseo_messaging.service.thread_message');
 
-			$user = $this->get('security.context')->getToken()->getUser();
-			$product = $productService->findOneById($productId);
-
 			/** @var Thread $thread */
-			$thread = $threadService->searchThreadByCreatorAndTopic($user->getId(), $product->getId());
+			$product = $productService->findOneById($productId);
+			$userFrom = $this->get('security.context')->getToken()->getUser();
+			$userTo = $product->getVendor();
 
-			if($thread)
-			{
-				$message = $composer->reply($thread)
-					->setSender($user)
-					->getMessage()
-				;
-			}else
-			{
-				$message = $composer->newThread()
-					->setSubject('Preorder of product')
-					->setSender($user)
-					->addRecipient($product->getVendor())
-					->getMessage()
-				;
-				$thread = $message->getThread();
-				$thread->setTopic($product);
-			}
-
-			$message->setBody('I want buy your media to be used for: "'.$preorder->getUsedFor().'"');
-
-			$sender->send($message);
+			$thread = $threadService->searchThreadByCreatorAndTopic($userFrom->getId(), $product->getId());
+			$thread = $this->sendMessage($thread, $userFrom, $userTo, $product, 'I want buy your media to be used for: "'.$preorder->getUsedFor().'"');
 
             return $this->redirect($this->generateUrl('odiseo_messaging_list', array(
 				'threadId' => $thread->getId()
@@ -109,6 +88,36 @@ class PreOrderController extends ResourceController
 
         return $this->redirect($this->generateUrl('odiseo_product_show', array('id' => $productId)));
     }
+
+	public function sendMessage($thread, $userFrom, $userTo, $product, $messageBody)
+	{
+		$composer = $this->get('fos_message.composer');
+		$sender = $this->get('fos_message.sender');
+
+		if($thread)
+		{
+			$message = $composer->reply($thread)
+				->setSender($userFrom)
+				->getMessage()
+			;
+		}else
+		{
+			$message = $composer->newThread()
+				->setSubject('Preorder of product')
+				->setSender($userFrom)
+				->addRecipient($userTo)
+				->getMessage()
+			;
+			$thread = $message->getThread();
+			$thread->setTopic($product);
+		}
+
+		$message->setBody($messageBody);
+
+		$sender->send($message);
+
+		return $thread;
+	}
 
     /** Show and send contract */
 	public function showSendContractAction(Request $request)
@@ -138,9 +147,19 @@ class PreOrderController extends ResourceController
 	{
         $form = $this->get('form.factory')->create('odiseo_preorder_contract');
 		$handler = $this->get('odiseo_preorder.form.handler.contract');
-		
+
+		/** @var PreOrderInterface $preOrder */
 		if($preOrder = $handler->process($form))
 		{
+			$threadService = $this->get('odiseo_messaging.service.thread_message');
+
+			$product = $preOrder->getProduct();
+			$userFrom = $this->get('security.context')->getToken()->getUser();
+			$userTo = $preOrder->getBuyer();
+
+			$thread = $threadService->searchThreadByCreatorAndTopic($userTo->getId(), $product->getId());
+			$thread = $this->sendMessage($thread, $userFrom, $userTo, $product, 'Contract sent.');
+
 			return new JsonResponse(array(
 				'error' => false,
 				'html' => $this->renderView('OdiseoPreorderBundle:Frontend/Preorder/Partial:contract_sent.html.twig', array(
