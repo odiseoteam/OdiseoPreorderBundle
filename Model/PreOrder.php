@@ -43,7 +43,7 @@ class PreOrder implements PreOrderInterface
 
 	public function isPriceEditable()
 	{
-		return (null != $this->state) && ($this->state->getName() == PreOrderState::NUEVA || $this->state->getName() == PreOrderState::RECHAZADA_BUYER);
+		return (null != $this->state) && (!in_array($this->state->getName(), array(PreOrderState::FINALIZADA, PreOrderState::ACEPTADA_BUYER, PreOrderState::PAGADA)));
 	}
 
 	public function __construct()
