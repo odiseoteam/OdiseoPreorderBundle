@@ -2,6 +2,7 @@
 
 namespace Odiseo\Bundle\PreorderBundle\Services;
 
+use Odiseo\Bundle\PreorderBundle\Event\PreOrderEvent;
 use Odiseo\Bundle\PreorderBundle\Model\PreOrder;
 use Odiseo\Bundle\PreorderBundle\Model\PreOrderState;
 use Odiseo\Bundle\PreorderBundle\Handler\CreateHandler;
@@ -11,6 +12,7 @@ use Odiseo\Bundle\PreorderBundle\Handler\SaveHandler;
 use Odiseo\Bundle\PreorderBundle\Handler\PayHandler;
 use Odiseo\Bundle\PreorderBundle\Handler\VerifyHandler;
 use Odiseo\Bundle\PreorderBundle\Handler\FinishHandler;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class PreOrderManagerService
 {
@@ -21,6 +23,7 @@ class PreOrderManagerService
 	private $preOrderService;
 	private $preOrderStateService;
 	private $preOrderHandler;
+	protected $dispatcher;
 	
 	public function __construct($preOrderService, $preOrderStateService)
 	{
@@ -43,6 +46,11 @@ class PreOrderManagerService
 		$createHandler->setNexHandler($editHandler);
 		
 		$this->preOrderHandler = $createHandler;
+	}
+
+
+	public function setEventDispatcher(EventDispatcherInterface $dispatcher){
+		$this->dispatcher = $dispatcher;
 	}
 	
 	
@@ -85,6 +93,7 @@ class PreOrderManagerService
 			$preOrder->setState($state);
 		}
 		$this->preOrderService->saveOrUpdate($preOrder);
+		//$this->dispatcher->dispatch(PreOrderEvent::PRE_ORDER_ACCEPTED, new PreOrderEvent($preOrder));
 	}
 	
 	public function savePreOrderDescription($preOrder)

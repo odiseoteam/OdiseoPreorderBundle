@@ -160,6 +160,8 @@ class PreOrderController extends ResourceController
 			$thread = $threadService->searchThreadByCreatorAndTopic($userTo->getId(), $product->getId());
 			$thread = $this->sendMessage($thread, $userFrom, $userTo, $product, 'Contract sent.');
 
+			$this->get('event_dispatcher')->dispatch(PreOrderEvent::PRE_ORDER_CONTRACT_SENT , new PreOrderEvent($preOrder) );
+
 			return new JsonResponse(array(
 				'error' => false,
 				'html' => $this->renderView('OdiseoPreorderBundle:Frontend/Preorder/Partial:contract_sent.html.twig', array(
