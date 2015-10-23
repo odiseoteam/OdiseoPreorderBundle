@@ -8,7 +8,7 @@ class CreateHandler extends PreOrderHandler
     {
 		if ($action == "nueva")
         {
-				$this->preOrderManager->sendPreOrderToVendor($preOrder);
+			$this->preOrderManager->sendPreOrderToVendor($preOrder);
 		}else
         {
 			$this->nextPreOrderHandler->processPreOrder($preOrder, $action);

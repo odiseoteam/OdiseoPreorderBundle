@@ -12,6 +12,7 @@ use Odiseo\Bundle\PreorderBundle\Handler\PayHandler;
 use Odiseo\Bundle\PreorderBundle\Handler\VerifyHandler;
 use Odiseo\Bundle\PreorderBundle\Handler\FinishHandler;
 use Odiseo\Bundle\PreorderBundle\Handler\DeclineHandler;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class PreOrderManagerService
 {
@@ -24,6 +25,7 @@ class PreOrderManagerService
 	private $preOrderStateService;
 	private $preOrderHandler;
     private $securityTokenStorage;
+	protected $dispatcher;
 	
 	public function __construct($preOrderService, $preOrderStateService, $securityTokenStorage)
 	{
@@ -50,7 +52,10 @@ class PreOrderManagerService
 		
 		$this->preOrderHandler = $createHandler;
 	}
-	
+
+	public function setEventDispatcher(EventDispatcherInterface $dispatcher){
+		$this->dispatcher = $dispatcher;
+	}
 	
 	public function manage($preOrder, $action)
 	{
@@ -91,6 +96,7 @@ class PreOrderManagerService
 			$preOrder->setState($state);
 		}
 		$this->preOrderService->saveOrUpdate($preOrder);
+		//$this->dispatcher->dispatch(PreOrderEvent::PRE_ORDER_ACCEPTED, new PreOrderEvent($preOrder));
 	}
 	
 	public function savePreOrderDescription($preOrder)
