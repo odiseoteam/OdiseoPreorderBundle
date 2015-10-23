@@ -1,4 +1,7 @@
 {% if form is defined %}
+    {% if form.decline is defined %}
+        <a href="{{ path('odiseo_preorder_decline', {'id': preOrder.id }) }}" class="btn_1" style="display:inline;">{{ 'odiseo.preorder.contract.decline'|trans }}</a>
+    {% endif %}
 	{% if form.pay is defined %}
 	<form action="{{ path('odiseo_preorder_detail', {'id': preOrder.id}) }}" name="odiseo_preorder_show_pay_contract" method="post" style="display:inline;">
 		{{ form_widget(form.pay, {'attr': {'class':'button_drop', 'style' : 'display:inline;'}}) }}

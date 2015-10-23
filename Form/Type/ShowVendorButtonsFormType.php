@@ -30,13 +30,15 @@ class ShowVendorButtonsFormType extends AbstractType
 			if (!in_array($preOrder->getState()->getName(), array(
 				PreOrderState::PAGADA,
 				PreOrderState::VERIFICADA,
-				PreOrderState::FINALIZADA
+				PreOrderState::FINALIZADA,
+                PreOrderState::RECHAZADA_VENDOR,
+                PreOrderState::RECHAZADA_BUYER
 			)))
 			{
-				$builder->add('decline', 'button', array('label' => 'odiseo.preorder.contract.decline'));
+                $builder->add('decline', 'button', array('label' => 'odiseo.preorder.contract.decline'));
 
-				$sendText = PreOrderState::NUEVA == $preOrder->getState()->getName() ? 'send' : 'modify';
-				$builder->add('contract', 'button', array('label' => 'odiseo.preorder.contract.' . $sendText));
+                $sendText = PreOrderState::NUEVA == $preOrder->getState()->getName() ? 'send' : 'modify';
+                $builder->add('contract', 'button', array('label' => 'odiseo.preorder.contract.' . $sendText));
 			}
 		}
     }

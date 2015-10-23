@@ -32,13 +32,24 @@ class ShowBuyerButtonsFormType extends AbstractType
 
     	if($preOrder)
     	{
-	    	if( PreOrderState::STATE_ACEPTADA_VENDOR == $preOrder->getState()->getName())
-	    	{    		
-	    		$builder->add('pay', 'button', array('label' => 'odiseo.preorder.contract.pay'));
-	    	}else if(PreOrderState::PAGADA == $preOrder->getState()->getName())
-			{
-				$builder->add('accept_pop', 'submit', array('label' => 'odiseo.preorder.contract.accept_pop'));
-			}
+            if (!in_array($preOrder->getState()->getName(), array(
+                PreOrderState::PAGADA,
+                PreOrderState::VERIFICADA,
+                PreOrderState::FINALIZADA,
+                PreOrderState::RECHAZADA_VENDOR,
+                PreOrderState::RECHAZADA_BUYER
+            )))
+            {
+                $builder->add('decline', 'button', array('label' => 'odiseo.preorder.contract.decline'));
+
+	    	    if(PreOrderState::STATE_ACEPTADA_VENDOR == $preOrder->getState()->getName())
+                {
+                    $builder->add('pay', 'button', array('label' => 'odiseo.preorder.contract.pay'));
+                }else if(PreOrderState::PAGADA == $preOrder->getState()->getName())
+                {
+                    $builder->add('accept_pop', 'submit', array('label' => 'odiseo.preorder.contract.accept_pop'));
+                }
+            }
     	}
     }
 	

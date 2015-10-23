@@ -11,21 +11,25 @@ use Odiseo\Bundle\PreorderBundle\Handler\SaveHandler;
 use Odiseo\Bundle\PreorderBundle\Handler\PayHandler;
 use Odiseo\Bundle\PreorderBundle\Handler\VerifyHandler;
 use Odiseo\Bundle\PreorderBundle\Handler\FinishHandler;
+use Odiseo\Bundle\PreorderBundle\Handler\DeclineHandler;
 
 class PreOrderManagerService
 {
 	const ACTION_NUEVA = "nueva";
 	const ACTION_ENVIAR = "enviar";
-	const ACTION_ACEPTAR = "aceptar";	
-	
-	private $preOrderService;
+	const ACTION_ACEPTAR = "aceptar";
+    const ACTION_DECLINE = "decline";
+
+    private $preOrderService;
 	private $preOrderStateService;
 	private $preOrderHandler;
+    private $securityTokenStorage;
 	
-	public function __construct($preOrderService, $preOrderStateService)
+	public function __construct($preOrderService, $preOrderStateService, $securityTokenStorage)
 	{
 		$this->preOrderService = $preOrderService;
 		$this->preOrderStateService = $preOrderStateService;
+        $this->securityTokenStorage = $securityTokenStorage;
 		
 		$createHandler = new CreateHandler($this);
 		$acceptHandler = new AcceptHandler($this);
@@ -34,7 +38,9 @@ class PreOrderManagerService
 		$payHandler = new PayHandler($this);
 		$verifyHandler = new VerifyHandler($this); 
 		$finishHandler = new FinishHandler($this);
-		
+        $declineHandler = new DeclineHandler($this);
+
+        $finishHandler->setNexHandler($declineHandler);
 		$verifyHandler->setNexHandler($finishHandler);
 		$payHandler->setNexHandler($verifyHandler);
 		$acceptHandler->setNexHandler($payHandler);
@@ -117,6 +123,16 @@ class PreOrderManagerService
 		$preOrder->setState($state);
 		$this->preOrderService->saveOrUpdate($preOrder);
 	}
+
+    public function declinePreOrder($preOrder)
+    {
+        $user = $this->securityTokenStorage->getToken()->getUser();
+
+        $preOrder->setIsEditable(false)->setCanVendorControl(false)->setCanBuyerControl(false);
+        $state = $this->preOrderStateService->findOneById(($user->getId() == $preOrder->getBuyer()->getId())?PreOrderState::STATE_RECHAZADA_BUYER:PreOrderState::RECHAZADA_VENDOR);
+        $preOrder->setState($state);
+        $this->preOrderService->saveOrUpdate($preOrder);
+    }
 	
 	public function createPreorder($buyer, $product)
 	{

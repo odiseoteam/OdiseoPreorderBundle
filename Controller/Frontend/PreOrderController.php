@@ -5,6 +5,7 @@ namespace Odiseo\Bundle\PreorderBundle\Controller\Frontend;
 use Odiseo\Bundle\MessagingBundle\Model\Thread;
 use Odiseo\Bundle\PreorderBundle\Event\PreOrderEvent;
 use Odiseo\Bundle\PreorderBundle\Model\PreOrderInterface;
+use Odiseo\Bundle\PreorderBundle\Services\PreOrderManagerService;
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
 use Symfony\Component\HttpFoundation\Request;
 use Odiseo\Bundle\PreorderBundle\Form\Type\PreOrderFormType;
@@ -200,14 +201,49 @@ class PreOrderController extends ResourceController
 	{
 		$id = $request->get('id');
 		$preorderService = $this->get('odiseo_preorder.service.preorder');
+        /** @var PreOrderInterface $preorder */
 		$preorder = $preorderService->findOneById($id);
 
-		$preorderEvent = new PreOrderEvent($preorder);
-		$this->get('event_dispatcher')->dispatch(PreOrderEvent::PRE_ORDER_ACCEPT_POP, $preorderEvent);
+        if($preorder->getBuyer()->getId() == $this->getUser()->getId())
+        {
+		    $preorderEvent = new PreOrderEvent($preorder);
+		    $this->get('event_dispatcher')->dispatch(PreOrderEvent::PRE_ORDER_ACCEPT_POP, $preorderEvent);
+        }
 
 		$referer = $request->headers->get('referer');
 		return $this->redirect($referer);
 	}
+
+    public function declineAction(Request $request)
+    {
+        $id = $request->get('id');
+        $preorderService = $this->get('odiseo_preorder.service.preorder');
+        $preorderManager = $this->get('odiseo_preorder.service.preorder_manager');
+
+        /** @var PreOrderInterface $preorder */
+        $preorder = $preorderService->findOneById($id);
+        $user = $this->getUser();
+
+        if(in_array($user->getId(), array($preorder->getBuyer()->getId(), $preorder->getVendor()->getId())))
+        {
+            $preorderManager->manage($preorder, PreOrderManagerService::ACTION_DECLINE);
+
+            $preorderEvent = new PreOrderEvent($preorder);
+            $this->get('event_dispatcher')->dispatch(PreOrderEvent::PRE_ORDER_CONTRACT_DECLINE, $preorderEvent);
+
+            $threadService = $this->get('odiseo_messaging.service.thread_message');
+
+            $product = $preorder->getProduct();
+            $userBuyer = ($user->getId() == $preorder->getBuyer()->getId())?$user:$preorder->getBuyer();
+            $userVendor = ($user->getId() == $preorder->getVendor()->getId())?$user:$preorder->getVendor();
+
+            $thread = $threadService->searchThreadByCreatorAndTopic($userBuyer->getId(), $product->getId());
+            $thread = $this->sendMessage($thread, $user, ($user->getId() == $userBuyer->getId())?$userVendor:$userBuyer, $product, 'Contract declined.');
+        }
+
+        $referer = $request->headers->get('referer');
+        return $this->redirect($referer);
+    }
 
 	public function getSelectedAction($form)
     {
@@ -232,7 +268,10 @@ class PreOrderController extends ResourceController
 		
 		if ($form->has('finalizar') != null && $form->get('finalizar')->isClicked())
 			$action = "finalizar";
-		
+
+        if ($form->has('decline') != null && $form->get('decline')->isClicked())
+            $action = "decline";
+
 		return $action;
 	}
 }

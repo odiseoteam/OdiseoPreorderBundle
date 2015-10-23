@@ -1,7 +1,7 @@
 {% if form is defined %}
 <form action="{{ path('odiseo_preorder_show_send_contract', {'id': id, 'buyerId' : buyerId }) }}" name="odiseo_preorder_show_send_contract" method="POST" style="display: inline;">
 	{% if form.decline is defined %}
-	{{ form_widget(form.decline, {'attr': {'class':'button_drop', 'style' : 'display:inline;'}}) }}
+    <a href="{{ path('odiseo_preorder_decline', {'id': preOrder.id }) }}" class="btn_1" style="display:inline;">{{ 'odiseo.preorder.contract.decline'|trans }}</a>
 	{% endif %}
 	{% if form.contract is defined %}
 	{{ form_widget(form.contract, {'attr': {'class':'button_drop', 'style' : 'display:inline;'}}) }}

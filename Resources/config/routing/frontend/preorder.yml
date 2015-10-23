@@ -31,6 +31,12 @@ odiseo_preorder_detail:
     requirements:
         id:  \d+
 
+odiseo_preorder_decline:
+    path:    /decline/{id}
+    defaults: { _controller: "odiseo_preorder.controller.preorder:declineAction" }
+    requirements:
+        id:  \d+
+
 odiseo_preorder_accept_pop:
     path:    /accept-pop/{id}
     defaults: { _controller: "odiseo_preorder.controller.preorder:acceptPopAction" }

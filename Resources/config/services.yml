@@ -9,7 +9,7 @@ services:
         
     odiseo_preorder.service.preorder_manager:
         class: Odiseo\Bundle\PreorderBundle\Services\PreOrderManagerService
-        arguments:  [ "@odiseo_preorder.service.preorder", "@odiseo_preorder.service.preorder_state"]
+        arguments:  [ "@odiseo_preorder.service.preorder", "@odiseo_preorder.service.preorder_state", "@security.token_storage"]
         
     odiseo_preorder.service.preorder_history:
         class: Odiseo\Bundle\PreorderBundle\Services\PreOrderHistoryService
