@@ -12,16 +12,26 @@ use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 class PreOrderRepository extends EntityRepository
 {
     /**
+     * @return QueryBuilder
+     */
+    public function createQueryBuilder($alias, $indexBy = null)
+    {
+        return parent::createQueryBuilder($alias, $indexBy)
+            ->innerJoin($alias.'.product', 'p')
+            ->leftJoin($alias.'.buyer', 'b')
+            ->leftJoin('p.vendor', 'v')
+            ->leftJoin($alias.'.state', 's')
+            ->andWhere('p.deletedAt IS NULL');
+    }
+
+    /**
      * @param $vendorId
      * @return QueryBuilder
      */
     public function findAllByVendorQuery($vendorId)
     {
         return $this->createQueryBuilder('po')
-            ->innerJoin('po.product', 'p')
-            ->leftJoin('p.vendor', 'v')
-            ->where('v.id=:vendorId')
-            ->andWhere('p.deletedAt IS NULL')
+            ->andWhere('v.id=:vendorId')
             ->setParameter('vendorId', $vendorId)
             ->getQuery()
         ;
@@ -42,10 +52,7 @@ class PreOrderRepository extends EntityRepository
     public function findAllByBuyerQuery($buyerId)
     {
         return $this->createQueryBuilder('po')
-            ->innerJoin('po.product', 'p')
-            ->leftJoin('po.buyer', 'b')
             ->where('b.id=:buyerId')
-            ->andWhere('p.deletedAt IS NULL')
             ->setParameter('buyerId', $buyerId)
             ->getQuery()
             ;
@@ -68,11 +75,8 @@ class PreOrderRepository extends EntityRepository
     public function findLatestByBuyerAndProductQuery($buyerId, $productId)
     {
         return $this->createQueryBuilder($this->getAlias())
-            ->leftJoin($this->getAlias().'.buyer', 'b')
-            ->leftJoin($this->getAlias().'.product', 'p')
             ->andWhere('b.id = :buyerId')
             ->andWhere('p.id = :productId')
-            ->andWhere('p.deletedAt IS NULL')
             ->setParameter('buyerId', $buyerId)
             ->setParameter('productId', $productId)
             ->orderBy($this->getAlias().'.dateCreated', 'DESC')
@@ -100,12 +104,8 @@ class PreOrderRepository extends EntityRepository
     public function findNewByBuyerAndProductQuery($buyerId, $productId)
     {
         return $this->createQueryBuilder($this->getAlias())
-            ->leftJoin($this->getAlias().'.buyer', 'b')
-            ->leftJoin($this->getAlias().'.product', 'p')
-            ->leftJoin($this->getAlias().'.state', 's')
             ->andWhere('b.id = :buyerId')
             ->andWhere('p.id = :productId')
-            ->andWhere('p.deletedAt IS NULL')
             ->andWhere('s.name = :stateName')
             ->setParameter('buyerId', $buyerId)
             ->setParameter('productId', $productId)

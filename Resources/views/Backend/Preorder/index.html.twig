@@ -1,0 +1,32 @@
+{% extends 'SyliusWebBundle:Backend:layout.html.twig' %}
+
+{% import 'SyliusWebBundle:Backend/Macros:buttons.html.twig' as buttons %}
+{% from 'SyliusWebBundle:Backend/Macros:misc.html.twig' import pagination %}
+{% from 'OdiseoPreorderBundle:Backend/Preorder:macros.html.twig' import list %}
+
+{% block content_title %}
+<h1><i class="fa fa-file-text-o"></i> {{ 'Contracts'|trans|raw }}</h1>
+{% endblock %}
+
+{% block topbar %}
+<li>{{ 'sylius.breadcrumb.sales'|trans }}</li>
+<li class="active">{{ 'Contracts'|trans }}</li>
+{% endblock %}
+
+{% block content %}
+<div class="box box-primary">
+    {% if preorders.haveToPaginate()|default(false) %}
+    <div class="box-header with-border">
+        {{ pagination(orders) }}
+    </div>
+    {% endif %}
+    <div class="box-body table-responsive no-padding">
+        {{ list(preorders) }}
+    </div>
+    {% if orders.haveToPaginate()|default(false) %}
+    <div class="box-footer">
+        {{ pagination(preorders) }}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

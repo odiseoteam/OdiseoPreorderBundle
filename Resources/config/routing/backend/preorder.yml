@@ -1,0 +1,26 @@
+odiseo_backend_preorder_index:
+    path: /
+    methods: [GET]
+    defaults:
+        _controller: odiseo_preorder.controller.preorder:indexAction
+        _sylius:
+            template: OdiseoPreorderBundle:Backend/Preorder:index.html.twig
+            paginate: 20
+            sortable: true
+
+odiseo_backend_preorder_delete:
+    path: /{id}
+    methods: [DELETE]
+    defaults:
+        _controller: odiseo_preorder.controller.preorder:deleteAction
+        _sylius:
+            template: SyliusWebBundle:Backend/Misc:delete.html.twig
+            redirect: odiseo_backend_preorder_index
+
+odiseo_backend_preorder_show:
+    path: /{id}
+    methods: [GET]
+    defaults:
+        _controller: odiseo_preorder.controller.preorder:showAction
+        _sylius:
+            template: OdiseoPreorderBundle:Backend/Preorder:show.html.twig

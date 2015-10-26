@@ -1,0 +1,59 @@
+{% macro list(preorders, user) %}
+
+{% import 'SyliusWebBundle:Backend/Macros:buttons.html.twig' as buttons %}
+{% import 'SyliusWebBundle:Backend/Macros:alerts.html.twig' as alerts %}
+{% import 'SyliusWebBundle:Backend/Macros:misc.html.twig' as misc %}
+
+{% set router_paramters = user is not null ? {'id' : user.id} : {} %}
+
+{% if preorders|length > 0 %}
+<table id="orders" class="table table-hover">
+    <thead>
+        <tr>
+            <th></th>
+            <th>{{ sylius_resource_sort('createdAt', 'sylius.order.created_at'|trans, null, {'route_params' : router_paramters}) }}</th>
+            <th>Buyer</th>
+            <th>Vendor</th>
+            <th>Product</th>
+            <th>{{ sylius_resource_sort('paymentState', 'sylius.order.payment_state'|trans, null, {'route_params' : router_paramters}) }}</th>
+            <th>Price</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for preorder in preorders %}
+        <tr id="{{ preorder.id }}">
+            <td class="center-text"><input type="checkbox" value="{{ preorder.id }}" /></td>
+            <td>{{ preorder.dateCreated|date }}</td>
+            <td>
+                <p>{{ preorder.buyer.fullName }} <br><a href="{{ path('sylius_backend_user_show', {'id': preorder.buyer.id}) }}">{{ preorder.buyer.email }}</a></p>
+            </td>
+            <td>
+                <p>{{ preorder.product.vendor.fullName }} <br><a href="{{ path('sylius_backend_user_show', {'id': preorder.product.vendor.id}) }}">{{ preorder.product.vendor.email }}</a></p>
+            </td>
+            <td>
+                <a href="{{ path('sylius_backend_product_show', {'id': preorder.product.id}) }}">{{ preorder.product.name }}</a>
+            </td>
+            <td>
+                {% include 'OdiseoPreorderBundle:Backend/Preorder:_preorderState.html.twig' %}
+            </td>
+            <td>{{ preorder.price|sylius_price }}</td>
+            <td>
+                <div class="pull-right">
+                {{ buttons.show(path('odiseo_backend_preorder_show', {'id': preorder.id})) }}
+                {{ buttons.delete(path('odiseo_backend_preorder_delete', {'id': preorder.id})) }}
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+    {% if user is not null %}
+        {{ alerts.info('sylius.user.order.no_results'|trans) }}
+    {% else %}
+        {{ alerts.info('sylius.order.no_results'|trans) }}
+    {% endif %}
+{% endif %}
+
+{% endmacro %}
