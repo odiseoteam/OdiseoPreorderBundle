@@ -59,9 +59,9 @@
                             <dt>Price</dt>
                             <dd>{{ preorder.price|sylius_price }}</dd>
                             <dt>Details</dt>
-                            <dd>{{ preorder.details }}</dd>
+                            <dd>{{ preorder.details | raw }}</dd>
                             <dt>Restrictions</dt>
-                            <dd>{{ preorder.restrictions }}</dd>
+                            <dd>{{ preorder.restrictions  | raw }}</dd>
                             <dt>Art Included</dt>
                             <dd><div class="label label-primary">{{ preorder.artIncluded?'yes':'no' }}</div></dd>
                             <dt>Art Date</dt>
