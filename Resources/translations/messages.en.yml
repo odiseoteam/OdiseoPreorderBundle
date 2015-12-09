@@ -29,3 +29,10 @@ odiseo:
             submit: 'Submit'
             used_for: 'What kind of advertising are you looking to place on this media?'
             verify: 'Verify'
+        buyer: 'Buyer'
+        vendor: 'Vendor'
+        media_name: 'Media Name'
+        used_for: 'Used for'
+        details: 'Preorder Summary'
+
+
