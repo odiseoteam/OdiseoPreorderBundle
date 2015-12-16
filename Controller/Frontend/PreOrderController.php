@@ -159,7 +159,8 @@ class PreOrderController extends ResourceController
 			$userTo = $preOrder->getBuyer();
 
 			$thread = $threadService->searchThreadByCreatorAndTopic($userTo->getId(), $product->getId());
-			$thread = $this->sendMessage($thread, $userFrom, $userTo, $product, 'Contract sent.');
+			$message = $this->get('translator')->trans('odiseo.preorder.contract.sent_message');
+			$thread = $this->sendMessage($thread, $userFrom, $userTo, $product, $message);
 
 			$this->get('event_dispatcher')->dispatch(PreOrderEvent::PRE_ORDER_CONTRACT_SENT , new PreOrderEvent($preOrder) );
 
